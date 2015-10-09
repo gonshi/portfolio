@@ -81,10 +81,7 @@ Main = (function() {
       _t = _type[i];
       fn(_t);
     }
-    this.setScrollBarHeight();
-    if (typeof is_debug !== "undefined" && is_debug !== null) {
-      return $(".contents_column_inner[data-type=\"works_detail\"]").hide();
-    }
+    return this.setScrollBarHeight();
   };
 
   return Main;

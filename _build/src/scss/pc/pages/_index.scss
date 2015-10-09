@@ -22,6 +22,10 @@
 .contents_column_inner{
     @include absolute(0, -30px, 0, 0);
     overflow-y: scroll;
+
+    &[data-type="works_detail"]{
+        display: none;
+    }
 }
 
 .ttl{

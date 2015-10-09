@@ -86,7 +86,4 @@ class Main
 
         @setScrollBarHeight()
 
-        if is_debug?
-            $(".contents_column_inner[data-type=\"works_detail\"]").hide()
-
 new Main()

@@ -283,6 +283,9 @@ The `sprites` mixin generates identical output to the CSS template
   right: -30px;
   overflow-y: scroll;
 }
+.contents_column_inner[data-type="works_detail"] {
+  display: none;
+}
 
 .ttl {
   position: absolute;

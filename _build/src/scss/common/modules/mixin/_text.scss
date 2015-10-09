@@ -1,0 +1,25 @@
+//
+// text
+// ------------------------------
+@mixin hide-text ($direction: $hide-text-direction) {
+    @if $hide-text-direction == left {
+        overflow: hidden;
+        text-indent: -9999em;
+        text-align: left;
+    } @else {
+        overflow: hidden;
+        white-space: nowrap;
+        text-indent: 110%;
+    }
+}
+
+@mixin ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@mixin open-face($color){
+    $bold: 0.5;
+    text-shadow: 2px * $bold 0px 0px $color, -1.74661px * $bold -0.97435px * $bold 0px $color, 1.05064px * $bold 1.70181px * $bold 0px $color, -0.08846px * $bold -1.99804px * $bold 0px $color, -0.89615px * $bold 1.78799px * $bold 0px $color, 1.65367px * $bold -1.12488px * $bold 0px $color, -1.99218px * $bold 0.17674px * $bold 0px $color, 1.82588px * $bold 0.81619px * $bold 0px $color, -1.19692px * $bold -1.60231px * $bold 0px $color, 0.26467px * $bold 1.98241px * $bold 0px $color, 0.73464px * $bold -1.86019px * $bold 0px $color, -1.5478px * $bold 1.26662px * $bold 0px $color, 1.96876px * $bold -0.35209px * $bold 0px $color, -1.89086px * $bold -0.65165px * $bold 0px $color, 1.33383px * $bold 1.49027px * $bold 0px $color, -0.43882px * $bold -1.95127px * $bold 0px $color, -0.56738px * $bold 1.91783px * $bold 0px $color;
+}

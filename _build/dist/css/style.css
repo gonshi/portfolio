@@ -1,0 +1,471 @@
+@charset "UTF-8";
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+/* HTML5 display definitions
+   ========================================================================== */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav,
+section, summary {
+  display: block;
+}
+
+audio, canvas, progress, video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* Resetting default margin and padding
+   ========================================================================== */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* HTML, Body, Anchor
+   ========================================================================== */
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1;
+}
+
+a {
+  outline: 0;
+}
+
+/* Paragraph
+   ========================================================================== */
+p {
+  margin-bottom: 0;
+}
+
+/* List
+   ========================================================================== */
+ol, ul {
+  list-style: none;
+}
+
+/* Table
+   ========================================================================== */
+table {
+  font-size: inherit;
+  font-family: inherit;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  padding: 0;
+  text-align: left;
+  font-weight: normal;
+  vertical-align: top;
+}
+
+/* Form
+   ========================================================================== */
+fieldset {
+  border: none;
+}
+
+input, textarea, select, label {
+  vertical-align: middle;
+}
+
+textarea {
+  overflow: auto;
+}
+
+legend {
+  display: none;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+}
+
+/* Embedded
+   ========================================================================== */
+img {
+  vertical-align: bottom;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -ms-user-drag: none;
+}
+
+a img {
+  border: none;
+}
+
+object {
+  vertical-align: middle;
+  outline: none;
+}
+
+audio,
+canvas,
+video {
+  vertical-align: middle;
+}
+
+/* Other
+   ========================================================================== */
+em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+abbr {
+  border: none;
+  font-variant: normal;
+}
+
+q, blockquote {
+  quotes: none;
+}
+
+q:before,
+q:after,
+blockquote:before,
+blockquote:after {
+  content: "";
+  content: none;
+}
+
+address, caption, cite, code, dfn, var {
+  font-weight: normal;
+  font-style: normal;
+}
+
+code, pre {
+  font-family: monospace;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* clearfix */
+.clearfix:after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+
+body {
+  min-width: 0;
+  background-color: #000;
+  color: #000;
+  font-size: 14px;
+  font-family: "游ゴシック", "YuGothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: #0072ff;
+  text-decoration: none;
+}
+a:link, a:visited {
+  outline: 0;
+}
+a:hover, a:active {
+  color: #0072ff;
+  text-decoration: underline;
+}
+
+.contents {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-width: 1080px;
+  height: calc(100vh - 30px);
+  overflow: hidden;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background-color: #000;
+  box-shadow: 1px 0 1px #666;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.is-fixed {
+  position: fixed;
+  width: 100%;
+}
+
+/*
+SCSS variables are information about icon's compiled state, stored under its original file name
+
+.icon-home {
+  width: $icon-home-width;
+}
+
+The large array-like variables contain all information about a single icon
+$icon-home: x y offset_x offset_y width height total_width total_height image_path;
+
+At the bottom of this section, we provide information about the spritesheet itself
+$spritesheet: width height image $spritesheet-sprites;
+*/
+/*
+The provided mixins are intended to be used with the array-like variables
+
+.icon-home {
+  @include sprite-width($icon-home);
+}
+
+.icon-email {
+  @include sprite($icon-email);
+}
+*/
+/*
+The `sprites` mixin generates identical output to the CSS template
+  but can be overridden inside of SCSS
+
+@include sprites($spritesheet-sprites);
+*/
+.contents_column {
+  width: 50%;
+  min-height: 100%;
+  background-color: #fefefe;
+  overflow-x: hidden;
+}
+.contents_column[data-type="thumb"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.contents_column[data-type="detail"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.contents_column_inner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -30px;
+  overflow-y: scroll;
+}
+
+.ttl {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  right: 0;
+  width: 560px;
+  margin: auto;
+  color: #000;
+  font-family: 'Poiret One', cursive;
+  font-size: 36px;
+  text-shadow: 1px 0px 0px #fefefe, -0.873305px -0.487175px 0px #fefefe, 0.52532px 0.850905px 0px #fefefe, -0.04423px -0.99902px 0px #fefefe, -0.448075px 0.893995px 0px #fefefe, 0.826835px -0.56244px 0px #fefefe, -0.99609px 0.08837px 0px #fefefe, 0.91294px 0.408095px 0px #fefefe, -0.59846px -0.801155px 0px #fefefe, 0.132335px 0.991205px 0px #fefefe, 0.36732px -0.930095px 0px #fefefe, -0.7739px 0.63331px 0px #fefefe, 0.98438px -0.176045px 0px #fefefe, -0.94543px -0.325825px 0px #fefefe, 0.666915px 0.745135px 0px #fefefe, -0.21941px -0.975635px 0px #fefefe, -0.28369px 0.958915px 0px #fefefe;
+  z-index: 4;
+}
+
+.thumb_container {
+  position: relative;
+  width: 560px;
+  margin: 120px auto;
+}
+
+.thumb {
+  display: table;
+  position: relative;
+  width: 540px;
+  height: 105px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+.thumb:before {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0);
+  content: "";
+}
+.thumb:hover:before {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.thumb_pic {
+  float: left;
+  width: 200px;
+  margin-right: 20px;
+  box-shadow: 1px 1px 3px 0 #666;
+}
+
+.thumb_info {
+  display: table-cell;
+  width: 320px;
+  height: 105px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.thumb_ttl {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.thumb_tech {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.thumb_scrollBar {
+  position: absolute;
+  top: 10px;
+  bottom: 40px;
+  left: 10px;
+}
+
+.detail_container {
+  width: 560px;
+  margin: 120px auto;
+}
+
+.detail_pic {
+  width: 560px;
+  box-shadow: 1px 1px 6px 0 #000;
+}
+.detail_pic img {
+  width: 100%;
+  height: auto;
+}
+
+.detail_ttl {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.detail_role {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.detail_description {
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.detail_link {
+  float: right;
+  width: 140px;
+  height: 35px;
+  margin-top: 30px;
+  border: 1px solid #000;
+}
+.detail_link:hover {
+  background-color: #000;
+}
+.detail_link:hover a {
+  color: #fff;
+}
+.detail_link a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 35px;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+}
+
+.detail_scrollBar {
+  position: absolute;
+  top: 10px;
+  bottom: 40px;
+  right: 10px;
+}
+
+.scrollBar {
+  position: fixed;
+  width: 1px;
+  background-color: #000;
+}
+
+.scrollBar_inner {
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: 9px;
+  background-color: #000;
+}
+.scrollBar_inner:before, .scrollBar_inner:after {
+  margin: auto;
+  content: "";
+}
+.scrollBar_inner:before {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  right: 0;
+  background-image: url(../img/index-pc.png);
+  background-position: 0px 0px;
+  width: 7px;
+  height: 4px;
+  -webkit-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+.scrollBar_inner:after {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  background-image: url(../img/index-pc.png);
+  background-position: 0px 0px;
+  width: 7px;
+  height: 4px;
+}
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    text-shadow: none !important;
+    -webkit-filter: none !important;
+            filter: none !important;
+    -ms-filter: none !important;
+  }
+}

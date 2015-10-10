@@ -21,6 +21,65 @@ Main = (function() {
     this.exec();
   }
 
+  Main.prototype.mosaicAnim = function(canvas, img, cb) {
+    var _dur, _img_canvas, _img_ctx, _img_data, _mosaic_canvas, _mosaic_ctx, _mosaic_height, _mosaic_horizon_num, _mosaic_vertical_num, _mosaic_width, _pixel_i, canvas_ctx, j, k, ref, ref1, x, y;
+    createjs.Ticker.reset();
+    if (this.mosaic_timeout != null) {
+      clearTimeout(this.mosaic_timeout);
+    }
+    canvas.width = img.width;
+    canvas.height = img.height;
+    canvas_ctx = canvas.getContext("2d");
+    _img_canvas = document.createElement("canvas");
+    _img_canvas.width = img.width;
+    _img_canvas.height = img.height;
+    _img_ctx = _img_canvas.getContext("2d");
+    _img_ctx.drawImage(img, 0, 0, img.width, img.height);
+    _img_data = _img_ctx.getImageData(0, 0, img.width, img.height).data;
+    _mosaic_canvas = document.createElement("canvas");
+    _mosaic_canvas.width = img.width;
+    _mosaic_canvas.height = img.height;
+    _mosaic_ctx = _mosaic_canvas.getContext("2d");
+    _mosaic_width = 20;
+    _mosaic_horizon_num = Math.ceil(img.width / _mosaic_width);
+    _mosaic_height = 20;
+    _mosaic_vertical_num = Math.ceil(img.height / _mosaic_height);
+    for (x = j = 0, ref = _mosaic_horizon_num; 0 <= ref ? j < ref : j > ref; x = 0 <= ref ? ++j : --j) {
+      for (y = k = 0, ref1 = _mosaic_vertical_num; 0 <= ref1 ? k < ref1 : k > ref1; y = 0 <= ref1 ? ++k : --k) {
+        _pixel_i = ((x + 0.5) * _mosaic_width + img.width * ((y + 0.5) * _mosaic_height)) * 4;
+        _mosaic_ctx.fillStyle = ("rgba(" + _img_data[_pixel_i] + ", ") + (_img_data[_pixel_i + 1] + ", ") + (_img_data[_pixel_i + 2] + ", ") + (_img_data[_pixel_i + 3] + ")");
+        _mosaic_ctx.fillRect(x * _mosaic_width, y * _mosaic_height, _mosaic_width, _mosaic_height);
+      }
+    }
+    _dur = 500;
+    createjs.Ticker.addEventListener("tick", function(e) {
+      var _t;
+      canvas_ctx.clearRect(0, 0, img.width, img.height);
+      if (e.runTime < _dur) {
+        _t = createjs.Ease.quartOut(e.runTime / _dur);
+        canvas_ctx.drawImage(_mosaic_canvas, 0, 0, _mosaic_canvas.width, _t * _mosaic_canvas.height, 0, 0, canvas.width, _t * canvas.height);
+      } else {
+        canvas_ctx.drawImage(_mosaic_canvas, 0, 0);
+      }
+      if (e.runTime > _dur * 0.6) {
+        if (e.runTime < _dur * 1.6) {
+          _t = createjs.Ease.quartOut((e.runTime - _dur * 0.6) / _dur);
+          return canvas_ctx.drawImage(_img_canvas, 0, 0, _img_canvas.width, _t * _img_canvas.height, 0, 0, canvas.width, _t * canvas.height);
+        } else {
+          return canvas_ctx.drawImage(_img_canvas, 0, 0);
+        }
+      }
+    });
+    return this.mosaic_timeout = setTimeout(function() {
+      canvas_ctx.globalCompositeOperation = "source-over";
+      canvas_ctx.drawImage(_img_canvas, 0, 0);
+      createjs.Ticker.reset();
+      if (cb != null) {
+        return cb();
+      }
+    }, _dur * 1.6);
+  };
+
   Main.prototype.slitAnim = function(vec, cb) {
     var _canvas, _clone_canvas, _ctx, _dur, _left_margin, _offset_top, _scroll_top, _slit_height, _slit_num, _time_gap, _time_gap_range, _win_slit_height, i, j, k, ref, ref1;
     this.$t_s.hide();
@@ -143,13 +202,21 @@ Main = (function() {
     })(this));
     this.$thumb.on("click", (function(_this) {
       return function(e) {
-        var _$e, _img;
+        var _$e, _img, _interval;
         _this.$d_c_c_i.filter("[data-type=\"about\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").show();
         _$e = $(e.currentTarget);
         _img = new Image();
+        _interval = setInterval(function() {
+          if (_img.width > 0) {
+            _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
+              return _this.$d_c.find(".detail_info").show();
+            });
+            return clearInterval(_interval);
+          }
+        }, 100);
         _img.src = "img/" + (_$e.attr("data-type")) + "/" + (_$e.attr("data-name")) + ".jpg";
-        _this.$d_c.find(".detail_pic").empty().append(_img);
+        _this.$d_c.find(".detail_info").hide();
         _this.$d_c.find(".detail_ttl").html(_$e.attr("data-ttl"));
         _this.$d_c.find(".detail_role_inner").text(_$e.attr("data-role"));
         _this.$d_c.find(".detail_description").html(_$e.attr("data-description"));

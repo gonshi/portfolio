@@ -270,7 +270,6 @@ The `sprites` mixin generates identical output to the CSS template
   left: 0;
 }
 .contents_column[data-type="thumb"] .contents_column_inner {
-  z-index: -1;
   overflow-x: hidden;
 }
 .contents_column[data-type="thumb"] .contents_column_inner canvas {
@@ -358,6 +357,7 @@ The `sprites` mixin generates identical output to the CSS template
   height: 105px;
   margin-top: 15px;
   cursor: pointer;
+  opacity: 0;
 }
 .thumb:before {
   position: absolute;

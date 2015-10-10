@@ -14,7 +14,6 @@
         @include absolute(0, '', '', 0);
 
         .contents_column_inner{
-            z-index: -1;
             overflow-x: hidden;
 
             canvas{
@@ -99,6 +98,7 @@
     height: 105px;
     margin-top: 15px;
     cursor: pointer;
+    opacity: 0;
 
     &:before{
         $p: -1px;

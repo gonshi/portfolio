@@ -1,6 +1,10 @@
+htmlToCanvas = require("../module/htmlToCanvas")()
+
 class Main
     constructor: ->
         @$win = $(window)
+
+        @$type_inner = $(".type_inner")
 
         # thumb
         @$t_c_c_i = $(".contents_column").filter("[data-type=\"thumb\"]").
@@ -20,77 +24,92 @@ class Main
 
         @exec()
 
-    htmlToCanvas: ($dom) ->
-        _$dom = $dom.clone()
+    slitAnim: (vec, cb) ->
+        @$t_s.hide() # canvas内にスクロールバーが映らないようにする
+        @$thumb.css opacity: 1
+        @$thumb_container = $(".thumb_container")
 
-        _cssAttr = [ "font-family", "font-size", "font-weight", "font-style",
-                     "color",  "text-transform", "text-decoration",
-                     "letter-spacing", "word-spacing", "line-height",
-                     "text-align", "vertical-align", "direction",
-                     "background-color", "background-image",
-                     "background-repeat","background-position",
-                     "background-attachment", "opacity",
-                     "width", "height", "top", "right", "bottom",
-                     "left", "margin-top", "margin-right", "margin-bottom",
-                     "margin-left", "padding-top", "padding-right",
-                     "padding-bottom", "padding-left",
-                     "border-top-width", "border-right-width",
-                     "border-bottom-width","border-left-width",
-                     "border-top-color", "border-right-color",
-                     "border-bottom-color", "border-left-color",
-                     "border-top-style","border-right-style",
-                     "border-bottom-style", "border-left-style",
-                     "position", "display", "visibility",
-                     "z-index", "overflow-x","overflow-y", "white-space",
-                     "clip", "float", "clear", "cursor",
-                     "list-style-image", "list-style-position",
-                     "list-style-type", "marker-offset" ]
-
-        ### 対象DOM自体のcss
-        _cssTxt = ""
-        for j in [0..._cssAttr.length]
-            _cssTxt += "#{_cssAttr[j]}: #{$.fn.css.call($dom, _cssAttr[j])}; "
-        _$dom.attr style: _cssTxt
-        ###
-
-        $dom.find("*").each (i) ->
-            _cssTxt = ""
-            for j in [0..._cssAttr.length]
-                _cssTxt +=
-                    "#{_cssAttr[j]}: #{$.fn.css.call($(this), _cssAttr[j])}; "
-            _$dom.find("*").eq(i).attr style: _cssTxt
+        _clone_canvas = htmlToCanvas.exec @$thumb_container
 
         _canvas = document.createElement "canvas"
-        _canvas.width = $dom.width() * 2
-        _canvas.height = $dom.height() * 2
         _ctx = _canvas.getContext "2d"
-        _data = "<svg xmlns='http://www.w3.org/2000/svg' " +
-                "width='#{$dom.width()}' " +
-                "height='#{$dom.height()}'>" +
-                    "<foreignObject width='100%' height='100%'>" +
-                        "<div xmlns='http://www.w3.org/1999/xhtml'>" +
-                            _$dom.get(0).outerHTML.
-                            replace(/data-(.*?)"\ |data-(.*?)">/g, "").
-                            replace(/<br(.*?)>/g, "<br$1\/>").
-                            replace(/<img(.*?)>/g, "<img$1\/>") +
-                        "</div>" +
-                    "</foreignObject>" +
-                "</svg>"
+        _canvas.width = _clone_canvas.width * 1.5
+        _canvas.height = _clone_canvas.height
+        _canvas.style.width = "#{_clone_canvas.width * 1.5 / 2}px"
+        _canvas.style.height = "#{_clone_canvas.height / 2}px"
 
-        _DOMURL = self.URL || self.webkitURL || self
-        _img = new Image()
-        _svg = new Blob([_data], type: "image/svg+xml")
-        _url = _DOMURL.createObjectURL _svg
+        if vec == "in"
+            _canvas.style.left = @$thumb_container.get(0).
+                                 getBoundingClientRect().left + "px"
+        else # out
+            _left_margin = @$thumb_container.get(0).
+                           getBoundingClientRect().left * 2 # retina対応
+            _canvas.style.left = "0px"
 
-        _img.onload = ->
-            # retina対応
-            _ctx.drawImage _img, 0, 0, _img.width * 2, _img.height * 2
-            _canvas.style.width = "#{_img.width}px"
-            _canvas.style.height = "#{_img.height}px"
-            _DOMURL.revokeObjectURL _url
-        _img.src = _url
+        @$t_c_c_i.append _canvas
 
-        return _canvas
+        _slit_height = Math.floor(Math.random() * 3) + 4
+        _slit_num = Math.ceil(_clone_canvas.height / _slit_height)
+        _dur = 800
+        _time_gap = []
+        _time_gap_range = 300
+
+        if vec == "in"
+            for i in [0..._slit_num]
+                _time_gap[i] =
+                    Math.random() * _time_gap_range * 2 - _time_gap_range
+        else # out
+            for i in [0..._slit_num]
+                _time_gap[i] = Math.random() * _time_gap_range * -2
+
+        _scroll_top = @$t_c_c_i.scrollTop()
+        _win_slit_height = @$win.height()
+        _offset_top = _canvas.offsetTop
+
+        createjs.Ticker.addEventListener "tick", (e) ->
+            _ctx.clearRect(
+                0, 0, _canvas.width, _canvas.height
+            )
+
+            for i in [0..._slit_num]
+                if(_slit_height / 2 * (i + 1) + _offset_top < _scroll_top ||
+                _slit_height / 2 * i + _offset_top >
+                _scroll_top + _win_slit_height)
+                    continue # 見えている領域以外は描画しない
+
+                if e.runTime + _time_gap[i] < 0
+                    _t = 0
+                else if e.runTime + _time_gap[i] > _dur
+                    _t = 1
+                else
+                    _t =
+                        createjs.Ease.quartOut(
+                            (e.runTime + _time_gap[i]) / _dur
+                        )
+
+
+                if vec == "in"
+                    _left = _canvas.width - _t * _canvas.width
+                else # out
+                    _left = -_t * _canvas.width + _left_margin
+
+                _ctx.drawImage(
+                    _clone_canvas,
+                    0, _slit_height * i,
+                    _clone_canvas.width, _slit_height,
+                    _left, _slit_height * i,
+                    _clone_canvas.width, _slit_height
+                )
+
+        setTimeout =>
+            createjs.Ticker.reset()
+            @$thumb.css opacity: 1
+            @$t_c_c_i.find("canvas").remove()
+            @setScrollBarHeight()
+            cb() if cb?
+        , _time_gap_range + _dur
+
+        @$thumb.css opacity: 0 # 本来のDOMはアニメーションの間見せない
 
     setScrollBarHeight: ->
         _type = ["t", "d"]
@@ -115,6 +134,24 @@ class Main
         ######################
 
         @$win.on "resize", $.debounce(500, => @setScrollBarHeight())
+
+        @$type_inner.on "click", (e) =>
+            return if $(e.currentTarget).hasClass "is-prevent"
+            @$type_inner.addClass "is-prevent"
+
+            @slitAnim "out"
+
+            @$thumb.hide()
+            @$thumb.filter(
+                "[data-type=\"#{$(e.currentTarget).attr "data-type"}\"]"
+            ).show()
+
+            @slitAnim "in", => @$type_inner.removeClass "is-prevent"
+
+            @$type_inner.removeClass "not-selected"
+            @$type_inner.not(
+                "[data-type=\"#{$(e.currentTarget).attr "data-type"}\"]"
+            ).addClass "not-selected"
 
         @$thumb.on "click", (e) =>
             @$d_c_c_i.filter("[data-type=\"about\"]").hide()
@@ -157,10 +194,7 @@ class Main
         # INIT
         ######################
 
-        #@setScrollBarHeight()
-        @$t_s.hide()
-
-        @$thumb_container = $(".thumb_container")
+        # サムネイルをbase64化
         _loaded_count = 0
         for i in [0...@$thumb.size()]
             do (i) =>
@@ -179,79 +213,7 @@ class Main
                         clearInterval _interval
 
                         _loaded_count += 1
-                        if _loaded_count == @$thumb.size()
-                            _clone_canvas = @htmlToCanvas @$thumb_container
-
-                            _canvas = document.createElement "canvas"
-                            _ctx = _canvas.getContext "2d"
-                            _canvas.width = _clone_canvas.width * 1.5
-                            _canvas.height = _clone_canvas.height
-                            _canvas.style.width =
-                                "#{_clone_canvas.width * 1.5 / 2}px"
-                            _canvas.style.height =
-                                "#{_clone_canvas.height / 2}px"
-                            _canvas.style.left =
-                                @$thumb_container.get(0).
-                                getBoundingClientRect().left + "px"
-                            @$t_c_c_i.append _canvas
-
-                            _height = Math.floor(Math.random() * 3) + 2
-                            _block_num =
-                                Math.ceil(_clone_canvas.height / _height)
-                            _gap = []
-                            _ease = []
-
-                            for i in [0..._block_num]
-                                _gap[i] = Math.random() * 1000 - 500
-
-                            _interval = setInterval =>
-                                _scroll_top = @$win.scrollTop()
-                                _win_height = @$win.height()
-                                _offset_top = _canvas.offsetTop
-
-                                createjs.Ticker.addEventListener "tick", (e) ->
-                                    _ctx.clearRect(
-                                        0, 0, _canvas.width, _canvas.height
-                                    )
-
-                                    for i in [0..._block_num]
-                                        # 見えている領域以外は描画しない
-                                        if(_height / 2 * (i + 1) + _offset_top <
-                                        _scroll_top ||
-                                        _height / 2 * i + _offset_top >
-                                        _scroll_top + _win_height)
-                                            continue
-
-                                        if e.runTime + _gap[i] < 0
-                                            _t = 0
-                                        else if e.runTime + _gap[i] > 800
-                                            _t = 1
-                                        else
-                                            _t =
-                                                createjs.Ease.quartOut(
-                                                    (e.runTime + _gap[i]) / 800
-                                                )
-
-                                        _ctx.drawImage(
-                                            _clone_canvas,
-                                            0, _height * i,
-                                            _clone_canvas.width, _height,
-                                            _canvas.width - _t * _canvas.width,
-                                            _height * i,
-                                            _clone_canvas.width, _height
-                                        )
-
-                                setTimeout =>
-                                    createjs.Ticker.reset()
-                                    @$thumb.css opacity: 1
-                                    @$t_c_c_i.find("canvas").remove()
-                                    @setScrollBarHeight()
-                                , 1300
-
-                                clearInterval _interval
-                            , 100
-                            @$thumb.css opacity: 0
-                            @$t_c_c_i.css zIndex: 1
+                        @slitAnim "in" if _loaded_count == @$thumb.size()
                 , 100
 
                 _img.src =

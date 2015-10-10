@@ -178,7 +178,7 @@ Main = (function() {
   };
 
   Main.prototype.exec = function() {
-    var _img, _interval, _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
+    var _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
     this.$win.on("resize", $.debounce(500, (function(_this) {
       return function() {
         return _this.setScrollBarHeight();
@@ -209,10 +209,15 @@ Main = (function() {
         _img = new Image();
         _interval = setInterval(function() {
           if (_img.width > 0) {
-            console.log(_img.width);
-            _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
-              return _this.$d_c.find(".detail_info").show();
-            });
+            setTimeout(function() {
+              return _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
+                _this.$d_c.find(".detail_info").show();
+                _this.setScrollBarHeight();
+                return _this.$d_s_i.css({
+                  top: 0
+                });
+              });
+            }, 10);
             return clearInterval(_interval);
           }
         }, 100);
@@ -221,18 +226,9 @@ Main = (function() {
         _this.$d_c.find(".detail_ttl").html(_$e.attr("data-ttl"));
         _this.$d_c.find(".detail_role_inner").text(_$e.attr("data-role"));
         _this.$d_c.find(".detail_description").html(_$e.attr("data-description"));
-        _this.$d_c.find(".detail_link a").attr({
+        return _this.$d_c.find(".detail_link a").attr({
           href: _$e.attr("data-link")
         });
-        return _this.onload_interval = setInterval(function() {
-          if (_img.width > 0) {
-            _this.setScrollBarHeight();
-            _this.$d_s_i.css({
-              top: 0
-            });
-            return clearInterval(_this.onload_interval);
-          }
-        }, 100);
       };
     })(this));
     _type = ["t", "d"];
@@ -250,34 +246,35 @@ Main = (function() {
       fn(_t);
     }
     _loaded_count = 0;
-    _interval = [];
-    _img = [];
     results = [];
     for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
       results.push((function(_this) {
         return function(i) {
-          _img[i] = new Image();
-          _interval[i] = setInterval(function() {
-            var _canvas, _ctx;
-            if (_img[i].width > 0) {
-              _canvas = document.createElement("canvas");
-              _ctx = _canvas.getContext("2d");
-              _canvas.width = _img[i].width;
-              _canvas.height = _img[i].height;
-              _ctx.drawImage(_img[i], 0, 0);
-              _this.$thumb.eq(i).find(".thumb_pic").css({
-                width: _img[i].width,
-                height: _img[i].height,
-                backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
-              });
-              clearInterval(_interval[i]);
-              _loaded_count += 1;
-              if (_loaded_count === _this.$thumb.size()) {
-                return _this.slitAnim("in");
-              }
+          var _img, _interval;
+          _img = new Image();
+          _interval = setInterval(function() {
+            if (_img.width > 0) {
+              setTimeout(function() {
+                var _canvas, _ctx;
+                _canvas = document.createElement("canvas");
+                _ctx = _canvas.getContext("2d");
+                _canvas.width = _img.width;
+                _canvas.height = _img.height;
+                _ctx.drawImage(_img, 0, 0);
+                _this.$thumb.eq(i).find(".thumb_pic").css({
+                  width: _img.width,
+                  height: _img.height,
+                  backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
+                });
+                _loaded_count += 1;
+                if (_loaded_count === _this.$thumb.size()) {
+                  return _this.slitAnim("in");
+                }
+              }, 10);
+              return clearInterval(_interval);
             }
           }, 100);
-          return _img[i].src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
+          return _img.src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
         };
       })(this)(i));
     }

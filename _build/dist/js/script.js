@@ -178,7 +178,7 @@ Main = (function() {
   };
 
   Main.prototype.exec = function() {
-    var _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
+    var _interval, _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
     this.$win.on("resize", $.debounce(500, (function(_this) {
       return function() {
         return _this.setScrollBarHeight();
@@ -249,13 +249,14 @@ Main = (function() {
       fn(_t);
     }
     _loaded_count = 0;
+    _interval = [];
     results = [];
     for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
       results.push((function(_this) {
         return function(i) {
-          var _img, _interval;
+          var _img;
           _img = new Image();
-          _interval = setInterval(function() {
+          _interval[i] = setInterval(function() {
             var _canvas, _ctx;
             if (_img.width > 0) {
               _canvas = document.createElement("canvas");
@@ -268,7 +269,7 @@ Main = (function() {
                 height: _img.height,
                 backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
               });
-              clearInterval(_interval);
+              clearInterval(_interval[i]);
               _loaded_count += 1;
               if (_loaded_count === _this.$thumb.size()) {
                 return _this.slitAnim("in");

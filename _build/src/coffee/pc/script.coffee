@@ -275,10 +275,11 @@ class Main
 
         # サムネイルをbase64化
         _loaded_count = 0
+        _interval = []
         for i in [0...@$thumb.size()]
             do (i) =>
                 _img = new Image()
-                _interval = setInterval =>
+                _interval[i] = setInterval =>
                     if _img.width > 0
                         _canvas = document.createElement "canvas"
                         _ctx = _canvas.getContext "2d"
@@ -289,7 +290,7 @@ class Main
                             width: _img.width
                             height: _img.height
                             backgroundImage: "url(#{_canvas.toDataURL()})"
-                        clearInterval _interval
+                        clearInterval _interval[i]
 
                         _loaded_count += 1
                         @slitAnim "in" if _loaded_count == @$thumb.size()

@@ -233,6 +233,7 @@ class Main
             _img = new Image()
             _interval = setInterval =>
                 if _img.width > 0
+                    console.log _img.width
                     @mosaicAnim(
                         @$d_c.find(".detail_pic").get(0), _img,
                         => @$d_c.find(".detail_info").show()
@@ -276,19 +277,20 @@ class Main
         # サムネイルをbase64化
         _loaded_count = 0
         _interval = []
+        _img = []
         for i in [0...@$thumb.size()]
             do (i) =>
-                _img = new Image()
+                _img[i] = new Image()
                 _interval[i] = setInterval =>
-                    if _img.width > 0
+                    if _img[i].width > 0
                         _canvas = document.createElement "canvas"
                         _ctx = _canvas.getContext "2d"
-                        _canvas.width = _img.width
-                        _canvas.height = _img.height
-                        _ctx.drawImage _img, 0, 0
+                        _canvas.width = _img[i].width
+                        _canvas.height = _img[i].height
+                        _ctx.drawImage _img[i], 0, 0
                         @$thumb.eq(i).find(".thumb_pic").css
-                            width: _img.width
-                            height: _img.height
+                            width: _img[i].width
+                            height: _img[i].height
                             backgroundImage: "url(#{_canvas.toDataURL()})"
                         clearInterval _interval[i]
 
@@ -296,7 +298,7 @@ class Main
                         @slitAnim "in" if _loaded_count == @$thumb.size()
                 , 100
 
-                _img.src =
+                _img[i].src =
                     "img/" +
                     @$thumb.eq(i).find(".thumb_pic").attr("data-type") +
                     "-thumb/" +

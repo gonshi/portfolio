@@ -178,7 +178,7 @@ Main = (function() {
   };
 
   Main.prototype.exec = function() {
-    var _interval, _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
+    var _img, _interval, _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
     this.$win.on("resize", $.debounce(500, (function(_this) {
       return function() {
         return _this.setScrollBarHeight();
@@ -209,6 +209,7 @@ Main = (function() {
         _img = new Image();
         _interval = setInterval(function() {
           if (_img.width > 0) {
+            console.log(_img.width);
             _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
               return _this.$d_c.find(".detail_info").show();
             });
@@ -250,23 +251,23 @@ Main = (function() {
     }
     _loaded_count = 0;
     _interval = [];
+    _img = [];
     results = [];
     for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
       results.push((function(_this) {
         return function(i) {
-          var _img;
-          _img = new Image();
+          _img[i] = new Image();
           _interval[i] = setInterval(function() {
             var _canvas, _ctx;
-            if (_img.width > 0) {
+            if (_img[i].width > 0) {
               _canvas = document.createElement("canvas");
               _ctx = _canvas.getContext("2d");
-              _canvas.width = _img.width;
-              _canvas.height = _img.height;
-              _ctx.drawImage(_img, 0, 0);
+              _canvas.width = _img[i].width;
+              _canvas.height = _img[i].height;
+              _ctx.drawImage(_img[i], 0, 0);
               _this.$thumb.eq(i).find(".thumb_pic").css({
-                width: _img.width,
-                height: _img.height,
+                width: _img[i].width,
+                height: _img[i].height,
                 backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
               });
               clearInterval(_interval[i]);
@@ -276,7 +277,7 @@ Main = (function() {
               }
             }
           }, 100);
-          return _img.src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
+          return _img[i].src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
         };
       })(this)(i));
     }

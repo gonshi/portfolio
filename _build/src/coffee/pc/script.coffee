@@ -241,7 +241,7 @@ class Main
                                 @setScrollBarHeight()
                                 @$d_s_i.css top: 0
                         )
-                    , 100
+                    , 300
                     clearInterval _interval
             , 100
             _img.src = "img/#{_$e.attr "data-type"}/#{_$e.attr "data-name"}.jpg"
@@ -291,7 +291,7 @@ class Main
 
                             _loaded_count += 1
                             @slitAnim "in" if _loaded_count == @$thumb.size()
-                        , 100
+                        , 300
 
                         clearInterval _interval
                 , 100

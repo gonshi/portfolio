@@ -217,7 +217,7 @@ Main = (function() {
                   top: 0
                 });
               });
-            }, 100);
+            }, 300);
             return clearInterval(_interval);
           }
         }, 100);
@@ -270,7 +270,7 @@ Main = (function() {
                 if (_loaded_count === _this.$thumb.size()) {
                   return _this.slitAnim("in");
                 }
-              }, 100);
+              }, 300);
               return clearInterval(_interval);
             }
           }, 100);

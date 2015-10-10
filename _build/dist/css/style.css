@@ -204,7 +204,7 @@ a:hover, a:active {
   top: 0;
   left: 0;
   right: 0;
-  min-width: 1080px;
+  min-width: 1200px;
   height: calc(100vh - 30px);
   overflow: hidden;
 }
@@ -269,6 +269,14 @@ The `sprites` mixin generates identical output to the CSS template
   top: 0;
   left: 0;
 }
+.contents_column[data-type="thumb"] .contents_column_inner {
+  z-index: -1;
+  overflow-x: hidden;
+}
+.contents_column[data-type="thumb"] .contents_column_inner canvas {
+  position: absolute;
+  top: 120px;
+}
 .contents_column[data-type="detail"] {
   position: absolute;
   top: 0;
@@ -296,15 +304,51 @@ The `sprites` mixin generates identical output to the CSS template
   margin: auto;
   color: #000;
   font-family: 'Poiret One', cursive;
-  font-size: 36px;
+  font-size: 32px;
   text-shadow: 1px 0px 0px #fefefe, -0.873305px -0.487175px 0px #fefefe, 0.52532px 0.850905px 0px #fefefe, -0.04423px -0.99902px 0px #fefefe, -0.448075px 0.893995px 0px #fefefe, 0.826835px -0.56244px 0px #fefefe, -0.99609px 0.08837px 0px #fefefe, 0.91294px 0.408095px 0px #fefefe, -0.59846px -0.801155px 0px #fefefe, 0.132335px 0.991205px 0px #fefefe, 0.36732px -0.930095px 0px #fefefe, -0.7739px 0.63331px 0px #fefefe, 0.98438px -0.176045px 0px #fefefe, -0.94543px -0.325825px 0px #fefefe, 0.666915px 0.745135px 0px #fefefe, -0.21941px -0.975635px 0px #fefefe, -0.28369px 0.958915px 0px #fefefe;
   z-index: 4;
+}
+
+.type {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  right: 20px;
+  width: 560px;
+  margin: auto;
+  color: #000;
+  font-family: 'Poiret One', cursive;
+  font-size: 18px;
+  z-index: 4;
+}
+
+.type_inner {
+  float: right;
+  position: relative;
+  text-shadow: 1px 0px 0px #fefefe, -0.873305px -0.487175px 0px #fefefe, 0.52532px 0.850905px 0px #fefefe, -0.04423px -0.99902px 0px #fefefe, -0.448075px 0.893995px 0px #fefefe, 0.826835px -0.56244px 0px #fefefe, -0.99609px 0.08837px 0px #fefefe, 0.91294px 0.408095px 0px #fefefe, -0.59846px -0.801155px 0px #fefefe, 0.132335px 0.991205px 0px #fefefe, 0.36732px -0.930095px 0px #fefefe, -0.7739px 0.63331px 0px #fefefe, 0.98438px -0.176045px 0px #fefefe, -0.94543px -0.325825px 0px #fefefe, 0.666915px 0.745135px 0px #fefefe, -0.21941px -0.975635px 0px #fefefe, -0.28369px 0.958915px 0px #fefefe;
+  cursor: pointer;
+}
+.type_inner.not-selected {
+  opacity: 0.4;
+}
+.type_inner:hover {
+  font-weight: bold;
+}
+
+.type_slash {
+  float: right;
+  margin: 0 5px;
 }
 
 .thumb_container {
   position: relative;
   width: 560px;
   margin: 120px auto;
+}
+.thumb_container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .thumb {

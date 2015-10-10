@@ -46,10 +46,12 @@ class Main
                      "list-style-image", "list-style-position",
                      "list-style-type", "marker-offset" ]
 
+        ### 対象DOM自体のcss
         _cssTxt = ""
         for j in [0..._cssAttr.length]
             _cssTxt += "#{_cssAttr[j]}: #{$.fn.css.call($dom, _cssAttr[j])}; "
         _$dom.attr style: _cssTxt
+        ###
 
         $dom.find("*").each (i) ->
             _cssTxt = ""
@@ -59,12 +61,12 @@ class Main
             _$dom.find("*").eq(i).attr style: _cssTxt
 
         _canvas = document.createElement "canvas"
-        _canvas.width = $dom.outerWidth true
-        _canvas.height = $dom.outerHeight true
+        _canvas.width = $dom.width() * 2
+        _canvas.height = $dom.height() * 2
         _ctx = _canvas.getContext "2d"
         _data = "<svg xmlns='http://www.w3.org/2000/svg' " +
-                "width='#{$dom.outerWidth true}' " +
-                "height='#{$dom.outerHeight true}'>" +
+                "width='#{$dom.width()}' " +
+                "height='#{$dom.height()}'>" +
                     "<foreignObject width='100%' height='100%'>" +
                         "<div xmlns='http://www.w3.org/1999/xhtml'>" +
                             _$dom.get(0).outerHTML.
@@ -81,7 +83,10 @@ class Main
         _url = _DOMURL.createObjectURL _svg
 
         _img.onload = ->
-            _ctx.drawImage _img, 0, 0
+            # retina対応
+            _ctx.drawImage _img, 0, 0, _img.width * 2, _img.height * 2
+            _canvas.style.width = "#{_img.width}px"
+            _canvas.style.height = "#{_img.height}px"
             _DOMURL.revokeObjectURL _url
         _img.src = _url
 
@@ -94,6 +99,7 @@ class Main
             _t = _type[i]
 
             do (_t) =>
+                @["$#{_t}_s"].show()
                 @["$#{_t}_s_i"].height(
                     @["$#{_t}_c_c_i"].height() /
                     @["$#{_t}_c_c_i"].get(0).scrollHeight *
@@ -151,8 +157,10 @@ class Main
         # INIT
         ######################
 
-        @setScrollBarHeight()
+        #@setScrollBarHeight()
+        @$t_s.hide()
 
+        @$thumb_container = $(".thumb_container")
         _loaded_count = 0
         for i in [0...@$thumb.size()]
             do (i) =>
@@ -172,7 +180,78 @@ class Main
 
                         _loaded_count += 1
                         if _loaded_count == @$thumb.size()
-                            $("body").append @htmlToCanvas $(".thumb_container")
+                            _clone_canvas = @htmlToCanvas @$thumb_container
+
+                            _canvas = document.createElement "canvas"
+                            _ctx = _canvas.getContext "2d"
+                            _canvas.width = _clone_canvas.width * 1.5
+                            _canvas.height = _clone_canvas.height
+                            _canvas.style.width =
+                                "#{_clone_canvas.width * 1.5 / 2}px"
+                            _canvas.style.height =
+                                "#{_clone_canvas.height / 2}px"
+                            _canvas.style.left =
+                                @$thumb_container.get(0).
+                                getBoundingClientRect().left + "px"
+                            @$t_c_c_i.append _canvas
+
+                            _height = Math.floor(Math.random() * 3) + 2
+                            _block_num =
+                                Math.ceil(_clone_canvas.height / _height)
+                            _gap = []
+                            _ease = []
+
+                            for i in [0..._block_num]
+                                _gap[i] = Math.random() * 1000 - 500
+
+                            _interval = setInterval =>
+                                _scroll_top = @$win.scrollTop()
+                                _win_height = @$win.height()
+                                _offset_top = _canvas.offsetTop
+
+                                createjs.Ticker.addEventListener "tick", (e) ->
+                                    _ctx.clearRect(
+                                        0, 0, _canvas.width, _canvas.height
+                                    )
+
+                                    for i in [0..._block_num]
+                                        # 見えている領域以外は描画しない
+                                        if(_height / 2 * (i + 1) + _offset_top <
+                                        _scroll_top ||
+                                        _height / 2 * i + _offset_top >
+                                        _scroll_top + _win_height)
+                                            continue
+
+                                        if e.runTime + _gap[i] < 0
+                                            _t = 0
+                                        else if e.runTime + _gap[i] > 800
+                                            _t = 1
+                                        else
+                                            _t =
+                                                createjs.Ease.quartOut(
+                                                    (e.runTime + _gap[i]) / 800
+                                                )
+
+                                        _ctx.drawImage(
+                                            _clone_canvas,
+                                            0, _height * i,
+                                            _clone_canvas.width, _height,
+                                            _canvas.width - _t * _canvas.width,
+                                            _height * i,
+                                            _clone_canvas.width, _height
+                                        )
+
+                                setTimeout =>
+                                    createjs.Ticker.reset()
+                                    @$thumb.css opacity: 1
+                                    @$t_c_c_i.find("canvas").remove()
+                                    @setScrollBarHeight()
+                                , 1300
+
+                                clearInterval _interval
+                            , 100
+                            @$thumb.css opacity: 0
+                            @$t_c_c_i.css zIndex: 1
                 , 100
 
                 _img.src =

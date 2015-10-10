@@ -233,7 +233,7 @@ class Main
             _img = new Image()
             _interval = setInterval =>
                 if _img.width > 0
-                    setTimeout =>
+                    setTimeout => # canvas rendering fix
                         @mosaicAnim(
                             @$d_c.find(".detail_pic").get(0), _img,
                             =>
@@ -241,7 +241,7 @@ class Main
                                 @setScrollBarHeight()
                                 @$d_s_i.css top: 0
                         )
-                    , 10
+                    , 100
                     clearInterval _interval
             , 100
             _img.src = "img/#{_$e.attr "data-type"}/#{_$e.attr "data-name"}.jpg"
@@ -278,7 +278,7 @@ class Main
                 _img = new Image()
                 _interval = setInterval =>
                     if _img.width > 0
-                        setTimeout =>
+                        setTimeout => # canvas rendering fix
                             _canvas = document.createElement "canvas"
                             _ctx = _canvas.getContext "2d"
                             _canvas.width = _img.width
@@ -291,7 +291,7 @@ class Main
 
                             _loaded_count += 1
                             @slitAnim "in" if _loaded_count == @$thumb.size()
-                        , 10
+                        , 100
 
                         clearInterval _interval
                 , 100

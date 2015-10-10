@@ -202,25 +202,27 @@ Main = (function() {
     })(this));
     this.$thumb.on("click", (function(_this) {
       return function(e) {
-        var _$e, _img, _interval;
+        var _$e, _img, _imgloaded_func;
         _this.$d_c_c_i.filter("[data-type=\"about\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").show();
         _$e = $(e.currentTarget);
+        _imgloaded_func = function() {
+          return _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
+            _this.$d_c.find(".detail_info").show();
+            _this.setScrollBarHeight();
+            return _this.$d_s_i.css({
+              top: 0
+            });
+          });
+        };
         _img = new Image();
-        _interval = setInterval(function() {
-          if (_img.width > 0) {
-            setTimeout(function() {
-              return _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
-                _this.$d_c.find(".detail_info").show();
-                _this.setScrollBarHeight();
-                return _this.$d_s_i.css({
-                  top: 0
-                });
-              });
-            }, 300);
-            return clearInterval(_interval);
-          }
-        }, 100);
+        if (_img.width > 0) {
+          _imgloaded_func();
+        } else {
+          _img.onload = function() {
+            return _imgloaded_func();
+          };
+        }
         _img.src = "img/" + (_$e.attr("data-type")) + "/" + (_$e.attr("data-name")) + ".jpg";
         _this.$d_c.find(".detail_info").hide();
         _this.$d_c.find(".detail_ttl").html(_$e.attr("data-ttl"));
@@ -250,30 +252,32 @@ Main = (function() {
     for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
       results.push((function(_this) {
         return function(i) {
-          var _img, _interval;
-          _img = new Image();
-          _interval = setInterval(function() {
-            if (_img.width > 0) {
-              setTimeout(function() {
-                var _canvas, _ctx;
-                _canvas = document.createElement("canvas");
-                _ctx = _canvas.getContext("2d");
-                _canvas.width = _img.width;
-                _canvas.height = _img.height;
-                _ctx.drawImage(_img, 0, 0);
-                _this.$thumb.eq(i).find(".thumb_pic").css({
-                  width: _img.width,
-                  height: _img.height,
-                  backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
-                });
-                _loaded_count += 1;
-                if (_loaded_count === _this.$thumb.size()) {
-                  return _this.slitAnim("in");
-                }
-              }, 300);
-              return clearInterval(_interval);
+          var _img, _imgloaded_func;
+          _imgloaded_func = function() {
+            var _canvas, _ctx;
+            _canvas = document.createElement("canvas");
+            _ctx = _canvas.getContext("2d");
+            _canvas.width = _img.width;
+            _canvas.height = _img.height;
+            _ctx.drawImage(_img, 0, 0);
+            _this.$thumb.eq(i).find(".thumb_pic").css({
+              width: _img.width,
+              height: _img.height,
+              backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
+            });
+            _loaded_count += 1;
+            if (_loaded_count === _this.$thumb.size()) {
+              return _this.slitAnim("in");
             }
-          }, 100);
+          };
+          _img = new Image();
+          if (_img.width > 0) {
+            _imgloaded_func();
+          } else {
+            _img.onload = function() {
+              return _imgloaded_func();
+            };
+          }
           return _img.src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
         };
       })(this)(i));

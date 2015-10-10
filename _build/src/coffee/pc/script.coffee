@@ -230,20 +230,20 @@ class Main
 
             _$e = $(e.currentTarget)
 
+            _imgloaded_func = =>
+                @mosaicAnim(
+                    @$d_c.find(".detail_pic").get(0), _img,
+                    =>
+                        @$d_c.find(".detail_info").show()
+                        @setScrollBarHeight()
+                        @$d_s_i.css top: 0
+                )
+
             _img = new Image()
-            _interval = setInterval =>
-                if _img.width > 0
-                    setTimeout => # canvas rendering fix
-                        @mosaicAnim(
-                            @$d_c.find(".detail_pic").get(0), _img,
-                            =>
-                                @$d_c.find(".detail_info").show()
-                                @setScrollBarHeight()
-                                @$d_s_i.css top: 0
-                        )
-                    , 300
-                    clearInterval _interval
-            , 100
+            if _img.width > 0
+                _imgloaded_func()
+            else
+                _img.onload = -> _imgloaded_func()
             _img.src = "img/#{_$e.attr "data-type"}/#{_$e.attr "data-name"}.jpg"
 
             @$d_c.find(".detail_info").hide()
@@ -275,26 +275,26 @@ class Main
         _loaded_count = 0
         for i in [0...@$thumb.size()]
             do (i) =>
+                _imgloaded_func = =>
+                    _canvas = document.createElement "canvas"
+                    _ctx = _canvas.getContext "2d"
+                    _canvas.width = _img.width
+                    _canvas.height = _img.height
+                    _ctx.drawImage _img, 0, 0
+                    @$thumb.eq(i).find(".thumb_pic").css
+                        width: _img.width
+                        height: _img.height
+                        backgroundImage: "url(#{_canvas.toDataURL()})"
+
+                    _loaded_count += 1
+                    @slitAnim "in" if _loaded_count == @$thumb.size()
+
                 _img = new Image()
-                _interval = setInterval =>
-                    if _img.width > 0
-                        setTimeout => # canvas rendering fix
-                            _canvas = document.createElement "canvas"
-                            _ctx = _canvas.getContext "2d"
-                            _canvas.width = _img.width
-                            _canvas.height = _img.height
-                            _ctx.drawImage _img, 0, 0
-                            @$thumb.eq(i).find(".thumb_pic").css
-                                width: _img.width
-                                height: _img.height
-                                backgroundImage: "url(#{_canvas.toDataURL()})"
 
-                            _loaded_count += 1
-                            @slitAnim "in" if _loaded_count == @$thumb.size()
-                        , 300
-
-                        clearInterval _interval
-                , 100
+                if _img.width > 0
+                    _imgloaded_func()
+                else
+                    _img.onload = -> _imgloaded_func()
 
                 _img.src =
                     "img/" +

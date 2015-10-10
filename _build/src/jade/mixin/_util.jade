@@ -1,7 +1,6 @@
 mixin thumb(type, name, ttl, tech, detail_ttl, detail_role, detail_description, detail_link)
   div.thumb(data-name="#{name}" data-ttl="#{detail_ttl}" data-role="#{detail_role}" data-description="#{detail_description}" data-link="#{detail_link}" data-type="#{type}")
-    p.thumb_pic
-      img(src="img/#{type}-thumb/#{name}.jpg" alt=name)
+    p.thumb_pic(data-type="#{type}" data-name="#{name}")
     p.thumb_info
       span.thumb_ttl !{ttl}<br style="line-height: 2em;">
       span.thumb_tech 【主な技術/ツール】<br>!{tech}

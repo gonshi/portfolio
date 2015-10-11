@@ -52,8 +52,8 @@ html(lang="ja")
             +thumb("private", "tameslo", "ためスロ", "HTML, CSS, JavaScript, MediaWiki API", "ためスロ", "企画・演出・実装・デザイン", "スロットで3つのアルファベットを揃えると、その3文字略語の意味をWikiPediaから引っ張ってきて教えてくれるコンテンツです。<br>ためになるスロット、略して「ためスロ」です。世の中にはたくさんの3文字略語があるんですね。", "http://tameslo.gonshi.net")
             +thumb("private", "decade", "DECADE", "HTML, CSS, JavaScript, Google Custom Search API", "DECADE", "企画・演出・実装・デザイン", "人物、雑誌、建物、家電製品。世の中のあらゆるものにはそれぞれの歴史があります。<br>DECADEは、好きなものを年代とともに振り返ることのできる新しい画像検索サイトです。<br style=\"line-height: 3em;\">Google Custom Search APIを使って、指定されたキーワードと年代を組み合わせて画像検索を行っています。<br style=\"line-height: 3em;\">タイムマシンをイメージしたパースペクティブでデザインしました。", "http://decade.tokyo", "vimeo", "104167339")
             +thumb("private", "grouthring", "成長する円", "HTML, CSS, JavaScript, Canvas", "成長する円", "企画", "クリエイター学校、BaPAの授業にて中村勇吾さんが出された以下の課題に対して制作したアイデアです。<br style=\"line-height: 3em;\"><span style=\"font-style: italic; font-weight: bold;\">あなたは、ある活動を１日１回、１０年間にわたって、毎日やり続けることで１つの作品を作り上げるとします。<br>どのような活動を行い、最後にそれらをどう統合しますか？</span><br style=\"line-height: 3em;\">企画の内容は、下記のWebサイト上で見ることができます。", "http://gonshi.github.io/grouthRing/")
-            div.thumb_scrollBar.scrollBar
-              div.thumb_scrollBar_inner.scrollBar_inner
+            div.scrollBar(data-type="thumb")
+              div.scrollBar_inner
       section.contents_column(data-type="detail")
         div.contents_column_inner(data-type="works_detail")
           div.detail_container
@@ -65,8 +65,8 @@ html(lang="ja")
               p.detail_video
               p.detail_link
                 a(href="/" target="_blank") VISIT SITE
-            div.detail_scrollBar.scrollBar
-              div.detail_scrollBar_inner.scrollBar_inner
+            div.scrollBar(data-type="detail")
+              div.scrollBar_inner
         div.contents_column_inner(data-type="about")
           div.detail_container
             p.detail_ttl About

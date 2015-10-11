@@ -263,6 +263,13 @@ The `sprites` mixin generates identical output to the CSS template
   min-height: 100%;
   background-color: #fefefe;
   overflow-x: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -ms-user-drag: none;
 }
 .contents_column[data-type="thumb"] {
   position: absolute;
@@ -397,13 +404,6 @@ The `sprites` mixin generates identical output to the CSS template
   font-size: 12px;
 }
 
-.thumb_scrollBar {
-  position: absolute;
-  top: 10px;
-  bottom: 40px;
-  left: 10px;
-}
-
 .detail_container {
   width: 560px;
   margin: 120px auto;
@@ -463,17 +463,23 @@ The `sprites` mixin generates identical output to the CSS template
   color: #000;
 }
 
-.detail_scrollBar {
+.scrollBar {
+  width: 1px;
+  background-color: #000;
+}
+.scrollBar[data-type="thumb"] {
+  position: absolute;
+  top: 10px;
+  bottom: 40px;
+  left: 10px;
+  position: fixed;
+}
+.scrollBar[data-type="detail"] {
   position: absolute;
   top: 10px;
   bottom: 40px;
   right: 10px;
-}
-
-.scrollBar {
   position: fixed;
-  width: 1px;
-  background-color: #000;
 }
 
 .scrollBar_inner {
@@ -482,6 +488,7 @@ The `sprites` mixin generates identical output to the CSS template
   left: -4px;
   width: 9px;
   background-color: #000;
+  cursor: pointer;
 }
 .scrollBar_inner:before, .scrollBar_inner:after {
   margin: auto;

@@ -6,15 +6,17 @@ htmlToCanvas = require("../module/htmlToCanvas")();
 Main = (function() {
   function Main() {
     this.$win = $(window);
+    this.$body = $("body");
     this.$type_inner = $(".type_inner");
+    this.$scrollBar = $(".scrollBar");
     this.$t_c_c_i = $(".contents_column").filter("[data-type=\"thumb\"]").find(".contents_column_inner");
     this.$thumb = $(".thumb");
-    this.$t_s = $(".thumb_scrollBar");
-    this.$t_s_i = $(".thumb_scrollBar_inner");
+    this.$t_s = $(".scrollBar").filter("[data-type=\"thumb\"]");
+    this.$t_s_i = this.$t_s.find(".scrollBar_inner");
     this.$d_c_c_i = $(".contents_column").filter("[data-type=\"detail\"]").find(".contents_column_inner");
     this.$d_c = $(".detail_container");
-    this.$d_s = $(".detail_scrollBar");
-    this.$d_s_i = $(".detail_scrollBar_inner");
+    this.$d_s = $(".scrollBar").filter("[data-type=\"detail\"]");
+    this.$d_s_i = this.$d_s.find(".scrollBar_inner");
     if (location.href.match("localhost")) {
       window.is_debug = true;
     }
@@ -277,6 +279,27 @@ Main = (function() {
       _t = _type[i];
       fn(_t);
     }
+    this.$body.on("mousedown", (function(_this) {
+      return function(e) {
+        var _content_scroll_height, _from_client_y, _from_scroll_top, _scrollBar_whole_height, _type_short;
+        if ($(e.target).hasClass("scrollBar_inner")) {
+          _type = $(e.target).parent().attr("data-type");
+          _type_short = _type[0];
+          _from_client_y = e.clientY;
+          _from_scroll_top = _this["$" + _type_short + "_c_c_i"].scrollTop();
+          _scrollBar_whole_height = $(e.target).parent().height();
+          _content_scroll_height = _this["$" + _type_short + "_c_c_i"].get(0).scrollHeight;
+          _this.$body.on("mousemove", function(e) {
+            return _this["$" + _type_short + "_c_c_i"].prop({
+              scrollTop: (e.clientY - _from_client_y) * _content_scroll_height / _scrollBar_whole_height + _from_scroll_top
+            });
+          });
+          return _this.$body.one("mouseup", function() {
+            return _this.$body.off("mousemove");
+          });
+        }
+      };
+    })(this));
     _loaded_count = 0;
     results = [];
     for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {

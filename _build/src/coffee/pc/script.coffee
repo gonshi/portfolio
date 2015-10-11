@@ -3,22 +3,24 @@ htmlToCanvas = require("../module/htmlToCanvas")()
 class Main
     constructor: ->
         @$win = $(window)
+        @$body = $("body")
 
         @$type_inner = $(".type_inner")
+        @$scrollBar = $(".scrollBar")
 
         # thumb
         @$t_c_c_i = $(".contents_column").filter("[data-type=\"thumb\"]").
                     find(".contents_column_inner")
         @$thumb = $(".thumb")
-        @$t_s = $(".thumb_scrollBar")
-        @$t_s_i = $(".thumb_scrollBar_inner")
+        @$t_s = $(".scrollBar").filter("[data-type=\"thumb\"]")
+        @$t_s_i = @$t_s.find(".scrollBar_inner")
 
         # detail
         @$d_c_c_i = $(".contents_column").filter("[data-type=\"detail\"]").
                     find(".contents_column_inner")
         @$d_c = $(".detail_container")
-        @$d_s = $(".detail_scrollBar")
-        @$d_s_i = $(".detail_scrollBar_inner")
+        @$d_s = $(".scrollBar").filter("[data-type=\"detail\"]")
+        @$d_s_i = @$d_s.find(".scrollBar_inner")
 
         window.is_debug = true if location.href.match "localhost"
 
@@ -292,6 +294,28 @@ class Main
                              @["$#{_t}_c_c_i"].height())
                     )
                 )
+
+        @$body.on "mousedown", (e) =>
+            if $(e.target).hasClass "scrollBar_inner"
+                _type = $(e.target).parent().attr "data-type"
+                _type_short = _type[0]
+
+                _from_client_y = e.clientY
+                _from_scroll_top = @["$#{_type_short}_c_c_i"].scrollTop()
+
+                _scrollBar_whole_height = $(e.target).parent().height()
+                _content_scroll_height =
+                    @["$#{_type_short}_c_c_i"].get(0).scrollHeight
+
+                @$body.on "mousemove", (e) =>
+                    @["$#{_type_short}_c_c_i"].prop(
+                        scrollTop: (e.clientY - _from_client_y) *
+                                   _content_scroll_height /
+                                   _scrollBar_whole_height +
+                                   _from_scroll_top
+                    )
+
+                @$body.one "mouseup", => @$body.off "mousemove"
 
         ######################
         # INIT

@@ -9,6 +9,7 @@
     min-height: 100%;
     background-color: #fefefe;
     overflow-x: hidden;
+    @include disabled-select-drag();
 
     &[data-type="thumb"]{
         @include absolute(0, '', '', 0);
@@ -139,10 +140,6 @@
     font-size: 12px;
 }
 
-.thumb_scrollBar{
-    @include absolute(10px, '', 40px, 10px);
-}
-
 // =========================================
 //   detail
 // =========================================
@@ -210,24 +207,30 @@
     }
 }
 
-.detail_scrollBar{
-    @include absolute(10px, 10px, 40px, '');
-}
-
 // =========================================
 //   scroll bar
 // =========================================
 
 .scrollBar{
-    position: fixed;
     width: 1px;
     background-color: #000;
+
+    &[data-type="thumb"]{
+        @include absolute(10px, '', 40px, 10px);
+        position: fixed;
+    }
+
+    &[data-type="detail"]{
+        @include absolute(10px, 10px, 40px, '');
+        position: fixed;
+    }
 }
 
 .scrollBar_inner{
     @include absolute(0, '', '', -4px);
     width: 9px;
     background-color: #000;
+    cursor: pointer;
 
     &:before,
     &:after{

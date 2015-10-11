@@ -257,6 +257,25 @@ class Main
             @$d_c.find(".detail_ttl").html _$e.attr "data-ttl"
             @$d_c.find(".detail_role_inner").text _$e.attr "data-role"
             @$d_c.find(".detail_description").html _$e.attr "data-description"
+            @$d_c.find(".detail_video").empty()
+
+            if _$e.attr("data-video-type") == "youtube"
+                _src = "https://www.youtube.com/embed/" +
+                       "#{_$e.attr "data-video-id"}?rel=0"
+            else if _$e.attr("data-video-type") == "vimeo"
+                _src = "https://player.vimeo.com/video/" +
+                       "#{_$e.attr "data-video-id"}"
+
+            if _$e.attr("data-video-type") != ""
+                @$d_c.find(".detail_video").append(
+                    $("<iframe>").attr
+                        width: 580
+                        height: 326
+                        src: _src
+                        frameborder: 0
+                        allowfullscreen: "true"
+                )
+
             @$d_c.find(".detail_link a").attr href: _$e.attr "data-link"
 
         # scrollBar

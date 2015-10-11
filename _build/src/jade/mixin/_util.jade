@@ -1,5 +1,8 @@
-mixin thumb(type, name, ttl, tech, detail_ttl, detail_role, detail_description, detail_link)
-  div.thumb(data-name="#{name}" data-ttl="#{detail_ttl}" data-role="#{detail_role}" data-description="#{detail_description}" data-link="#{detail_link}" data-type="#{type}")
+mixin thumb(type, name, ttl, tech, detail_ttl, detail_role, detail_description, detail_link, video_type, video_id)
+  if typeof video_type === "undefined"
+    - video_type = "";
+    - video_id = "";
+  div.thumb(data-name="#{name}" data-ttl="#{detail_ttl}" data-role="#{detail_role}" data-description="#{detail_description}" data-link="#{detail_link}" data-type="#{type}" data-video-type="#{video_type}" data-video-id="#{video_id}")
     p.thumb_pic(data-type="#{type}" data-name="#{name}")
     p.thumb_info
       span.thumb_ttl !{ttl}<br style="line-height: 2em;">

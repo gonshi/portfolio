@@ -217,7 +217,7 @@ Main = (function() {
     })(this));
     this.$thumb.on("click", (function(_this) {
       return function(e) {
-        var _$e, _img, _imgloaded_func;
+        var _$e, _img, _imgloaded_func, _src;
         _this.$d_c_c_i.filter("[data-type=\"about\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").show();
         _$e = $(e.currentTarget);
@@ -243,6 +243,21 @@ Main = (function() {
         _this.$d_c.find(".detail_ttl").html(_$e.attr("data-ttl"));
         _this.$d_c.find(".detail_role_inner").text(_$e.attr("data-role"));
         _this.$d_c.find(".detail_description").html(_$e.attr("data-description"));
+        _this.$d_c.find(".detail_video").empty();
+        if (_$e.attr("data-video-type") === "youtube") {
+          _src = "https://www.youtube.com/embed/" + ((_$e.attr("data-video-id")) + "?rel=0");
+        } else if (_$e.attr("data-video-type") === "vimeo") {
+          _src = "https://player.vimeo.com/video/" + ("" + (_$e.attr("data-video-id")));
+        }
+        if (_$e.attr("data-video-type") !== "") {
+          _this.$d_c.find(".detail_video").append($("<iframe>").attr({
+            width: 580,
+            height: 326,
+            src: _src,
+            frameborder: 0,
+            allowfullscreen: "true"
+          }));
+        }
         return _this.$d_c.find(".detail_link a").attr({
           href: _$e.attr("data-link")
         });

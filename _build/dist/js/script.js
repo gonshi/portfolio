@@ -320,7 +320,22 @@ Main = (function() {
             });
             _loaded_count += 1;
             if (_loaded_count === _this.$thumb.size()) {
-              return _this.slitAnim("in");
+              _this.$t_c_c_i.prop({
+                scrollTop: _this.$t_c_c_i.get(0).scrollHeight
+              });
+              _this.$scrollBar.find(".scrollBar_inner").css({
+                opacity: 0
+              });
+              return _this.slitAnim("in", function() {
+                _this.$t_c_c_i.animate({
+                  scrollTop: 0
+                }, 1000);
+                return setTimeout(function() {
+                  return _this.$scrollBar.find(".scrollBar_inner").css({
+                    opacity: 1
+                  });
+                }, 10);
+              });
             }
           };
           _img = new Image();

@@ -337,7 +337,22 @@ class Main
                         backgroundImage: "url(#{_canvas.toDataURL()})"
 
                     _loaded_count += 1
-                    @slitAnim "in" if _loaded_count == @$thumb.size()
+
+                    if _loaded_count == @$thumb.size()
+                        @$t_c_c_i.prop(
+                            scrollTop: @$t_c_c_i.get(0).scrollHeight
+                        )
+                        @$scrollBar.find(".scrollBar_inner").css opacity: 0
+
+                        @slitAnim("in",
+                            =>
+                                @$t_c_c_i.animate scrollTop: 0, 1000
+                                # スクロールバーが一瞬上部に見えるのを防ぐ
+                                setTimeout =>
+                                    @$scrollBar.find(".scrollBar_inner").
+                                    css opacity: 1
+                                , 10
+                        )
 
                 _img = new Image()
 

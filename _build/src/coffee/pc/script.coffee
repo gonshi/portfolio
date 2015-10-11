@@ -243,7 +243,7 @@ class Main
                 @mosaicAnim(
                     @$d_c.find(".detail_pic").get(0), _img,
                     =>
-                        @$d_c.find(".detail_info").show()
+                        @$d_c.find(".detail_info").css opacity: 1
                         @setScrollBarHeight()
                         @$d_s_i.css top: 0
                 )
@@ -255,7 +255,7 @@ class Main
                 _img.onload = -> _imgloaded_func()
             _img.src = "img/#{_$e.attr "data-type"}/#{_$e.attr "data-name"}.jpg"
 
-            @$d_c.find(".detail_info").hide()
+            @$d_c.find(".detail_info").css opacity: 0
             @$d_c.find(".detail_ttl").html _$e.attr "data-ttl"
             @$d_c.find(".detail_role_inner").text _$e.attr "data-role"
             @$d_c.find(".detail_description").html _$e.attr "data-description"
@@ -279,6 +279,18 @@ class Main
                 )
 
             @$d_c.find(".detail_link a").attr href: _$e.attr "data-link"
+
+            @$d_c.removeAttr "style"
+            if(@$d_c.height() + parseInt(@$d_c.css "marginTop") * 2 <
+            @$win.height())
+                @$d_c.css
+                    position: "absolute"
+                    top: 0
+                    right: 0
+                    bottom: 0
+                    left: 0
+                    height: @$d_c.height()
+                    margin: "auto"
 
         # scrollBar
         _type = ["t", "d"]

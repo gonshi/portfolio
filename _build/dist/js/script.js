@@ -225,7 +225,9 @@ Main = (function() {
         _$e = $(e.currentTarget);
         _imgloaded_func = function() {
           return _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
-            _this.$d_c.find(".detail_info").show();
+            _this.$d_c.find(".detail_info").css({
+              opacity: 1
+            });
             _this.setScrollBarHeight();
             return _this.$d_s_i.css({
               top: 0
@@ -241,7 +243,9 @@ Main = (function() {
           };
         }
         _img.src = "img/" + (_$e.attr("data-type")) + "/" + (_$e.attr("data-name")) + ".jpg";
-        _this.$d_c.find(".detail_info").hide();
+        _this.$d_c.find(".detail_info").css({
+          opacity: 0
+        });
         _this.$d_c.find(".detail_ttl").html(_$e.attr("data-ttl"));
         _this.$d_c.find(".detail_role_inner").text(_$e.attr("data-role"));
         _this.$d_c.find(".detail_description").html(_$e.attr("data-description"));
@@ -260,9 +264,21 @@ Main = (function() {
             allowfullscreen: "true"
           }));
         }
-        return _this.$d_c.find(".detail_link a").attr({
+        _this.$d_c.find(".detail_link a").attr({
           href: _$e.attr("data-link")
         });
+        _this.$d_c.removeAttr("style");
+        if (_this.$d_c.height() + parseInt(_this.$d_c.css("marginTop")) * 2 < _this.$win.height()) {
+          return _this.$d_c.css({
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            height: _this.$d_c.height(),
+            margin: "auto"
+          });
+        }
       };
     })(this));
     _type = ["t", "d"];

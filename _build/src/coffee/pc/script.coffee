@@ -180,7 +180,12 @@ class Main
             cb() if cb?
         , _time_gap_range + _dur
 
-        @$thumb.css opacity: 0 # 本来のDOMはアニメーションの間見せない
+        if @not_first_slit_anim?
+            if vec == "out"
+                setTimeout ( => @$thumb.css opacity: 0), 50
+        else
+            @not_first_slit_anim = true
+            @$thumb.css opacity: 0 # 本来のDOMはアニメーションの間見せない
 
     setScrollBarHeight: ->
         _type = ["t", "d"]
@@ -212,12 +217,14 @@ class Main
 
             @slitAnim "out"
 
-            @$thumb.hide()
-            @$thumb.filter(
-                "[data-type=\"#{$(e.currentTarget).attr "data-type"}\"]"
-            ).show()
+            setTimeout => # wait svg load
+                @$thumb.hide()
+                @$thumb.filter(
+                    "[data-type=\"#{$(e.currentTarget).attr "data-type"}\"]"
+                ).show()
 
-            @slitAnim "in", => @$type_inner.removeClass "is-prevent"
+                @slitAnim "in", => @$type_inner.removeClass "is-prevent"
+            , 50
 
             @$type_inner.removeClass "not-selected"
             @$type_inner.not(

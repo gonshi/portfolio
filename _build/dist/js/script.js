@@ -155,9 +155,22 @@ Main = (function() {
         }
       };
     })(this), _time_gap_range + _dur);
-    return this.$thumb.css({
-      opacity: 0
-    });
+    if (this.not_first_slit_anim != null) {
+      if (vec === "out") {
+        return setTimeout(((function(_this) {
+          return function() {
+            return _this.$thumb.css({
+              opacity: 0
+            });
+          };
+        })(this)), 50);
+      }
+    } else {
+      this.not_first_slit_anim = true;
+      return this.$thumb.css({
+        opacity: 0
+      });
+    }
   };
 
   Main.prototype.setScrollBarHeight = function() {
@@ -191,11 +204,13 @@ Main = (function() {
         }
         _this.$type_inner.addClass("is-prevent");
         _this.slitAnim("out");
-        _this.$thumb.hide();
-        _this.$thumb.filter("[data-type=\"" + ($(e.currentTarget).attr("data-type")) + "\"]").show();
-        _this.slitAnim("in", function() {
-          return _this.$type_inner.removeClass("is-prevent");
-        });
+        setTimeout(function() {
+          _this.$thumb.hide();
+          _this.$thumb.filter("[data-type=\"" + ($(e.currentTarget).attr("data-type")) + "\"]").show();
+          return _this.slitAnim("in", function() {
+            return _this.$type_inner.removeClass("is-prevent");
+          });
+        }, 50);
         _this.$type_inner.removeClass("not-selected");
         return _this.$type_inner.not("[data-type=\"" + ($(e.currentTarget).attr("data-type")) + "\"]").addClass("not-selected");
       };

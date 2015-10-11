@@ -266,6 +266,7 @@ class Main
                     =>
                         @$d_c.find(".detail_info").css opacity: 1
                         @setScrollBarHeight()
+                        @$d_c_c_i.prop scroll: 0
                         @$d_s_i.css top: 0
                 )
 

@@ -187,6 +187,8 @@ class Main
         if @not_first_slit_anim?
             if vec == "out"
                 setTimeout ( => @$thumb.css opacity: 0), 50
+            else
+                @$thumb.css opacity: 0
         else
             @not_first_slit_anim = true
             @$thumb.css opacity: 0 # 本来のDOMはアニメーションの間見せない

@@ -167,6 +167,10 @@ Main = (function() {
             });
           };
         })(this)), 50);
+      } else {
+        return this.$thumb.css({
+          opacity: 0
+        });
       }
     } else {
       this.not_first_slit_anim = true;

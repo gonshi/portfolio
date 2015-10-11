@@ -300,6 +300,10 @@ The `sprites` mixin generates identical output to the CSS template
 .contents_column_inner[data-type="works_detail"] {
   display: none;
 }
+.contents_column_inner[data-type="about"] .detail_ttl {
+  font-family: 'Poiret One', cursive;
+  font-size: 28px;
+}
 
 .ttl {
   position: absolute;
@@ -461,6 +465,32 @@ The `sprites` mixin generates identical output to the CSS template
   text-align: center;
   text-decoration: none;
   color: #000;
+}
+
+.detail_name {
+  margin-top: 10px;
+}
+
+.detail_resume {
+  position: relative;
+  margin-top: 10px;
+  padding: 10px 0;
+}
+.detail_resume:before, .detail_resume:after {
+  width: 400px;
+  height: 1px;
+  background-color: #000;
+  content: "";
+}
+.detail_resume:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.detail_resume:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .scrollBar {

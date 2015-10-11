@@ -35,6 +35,13 @@
     &[data-type="works_detail"]{
         display: none;
     }
+
+    &[data-type="about"]{
+        .detail_ttl{
+            font-family: 'Poiret One', cursive;
+            font-size: 28px;
+        }
+    }
 }
 
 .ttl{
@@ -204,6 +211,32 @@
         text-align: center;
         text-decoration: none;
         color: #000;
+    }
+}
+
+.detail_name{
+    margin-top: 10px;
+}
+
+.detail_resume{
+    position: relative;
+    margin-top: 10px;
+    padding: 10px 0;
+
+    &:before,
+    &:after{
+        width: 400px;
+        height: 1px;
+        background-color: #000;
+        content: "";
+    }
+
+    &:before{
+        @include absolute(0, '', '', 0);
+    }
+
+    &:after{
+        @include absolute('', '', 0, 0);
     }
 }
 

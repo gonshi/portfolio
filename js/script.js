@@ -6,15 +6,18 @@ htmlToCanvas = require("../module/htmlToCanvas")();
 Main = (function() {
   function Main() {
     this.$win = $(window);
+    this.$body = $("body");
     this.$type_inner = $(".type_inner");
+    this.$scrollBar = $(".scrollBar");
     this.$t_c_c_i = $(".contents_column").filter("[data-type=\"thumb\"]").find(".contents_column_inner");
     this.$thumb = $(".thumb");
-    this.$t_s = $(".thumb_scrollBar");
-    this.$t_s_i = $(".thumb_scrollBar_inner");
+    this.$t_s = $(".scrollBar").filter("[data-type=\"thumb\"]");
+    this.$t_s_i = this.$t_s.find(".scrollBar_inner");
     this.$d_c_c_i = $(".contents_column").filter("[data-type=\"detail\"]").find(".contents_column_inner");
     this.$d_c = $(".detail_container");
-    this.$d_s = $(".detail_scrollBar");
-    this.$d_s_i = $(".detail_scrollBar_inner");
+    this.$d_s = $(".scrollBar").filter("[data-type=\"detail\"]");
+    this.$d_s_i = this.$d_s.find(".scrollBar_inner");
+    this.$footer_about = $(".footer_about");
     if (location.href.match("localhost")) {
       window.is_debug = true;
     }
@@ -190,8 +193,25 @@ Main = (function() {
     return results;
   };
 
+  Main.prototype.setDetailPosition = function(type) {
+    var _$d_c;
+    _$d_c = this.$d_c_c_i.filter("[data-type=\"" + type + "\"]").find(".detail_container");
+    _$d_c.removeAttr("style");
+    if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < this.$win.height()) {
+      return _$d_c.css({
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        height: _$d_c.height(),
+        margin: "auto"
+      });
+    }
+  };
+
   Main.prototype.exec = function() {
-    var _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
+    var _loaded_count, _t, _type, fn, fn1, i, j, k, ref, ref1;
     this.$win.on("resize", $.debounce(500, (function(_this) {
       return function() {
         return _this.setScrollBarHeight();
@@ -217,13 +237,15 @@ Main = (function() {
     })(this));
     this.$thumb.on("click", (function(_this) {
       return function(e) {
-        var _$e, _img, _imgloaded_func;
+        var _$e, _img, _imgloaded_func, _src;
         _this.$d_c_c_i.filter("[data-type=\"about\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").show();
         _$e = $(e.currentTarget);
         _imgloaded_func = function() {
           return _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
-            _this.$d_c.find(".detail_info").show();
+            _this.$d_c.find(".detail_info").css({
+              opacity: 1
+            });
             _this.setScrollBarHeight();
             return _this.$d_s_i.css({
               top: 0
@@ -239,13 +261,31 @@ Main = (function() {
           };
         }
         _img.src = "img/" + (_$e.attr("data-type")) + "/" + (_$e.attr("data-name")) + ".jpg";
-        _this.$d_c.find(".detail_info").hide();
+        _this.$d_c.find(".detail_info").css({
+          opacity: 0
+        });
         _this.$d_c.find(".detail_ttl").html(_$e.attr("data-ttl"));
         _this.$d_c.find(".detail_role_inner").text(_$e.attr("data-role"));
         _this.$d_c.find(".detail_description").html(_$e.attr("data-description"));
-        return _this.$d_c.find(".detail_link a").attr({
+        _this.$d_c.find(".detail_video").empty();
+        if (_$e.attr("data-video-type") === "youtube") {
+          _src = "https://www.youtube.com/embed/" + ((_$e.attr("data-video-id")) + "?rel=0");
+        } else if (_$e.attr("data-video-type") === "vimeo") {
+          _src = "https://player.vimeo.com/video/" + ("" + (_$e.attr("data-video-id")));
+        }
+        if (_$e.attr("data-video-type") !== "") {
+          _this.$d_c.find(".detail_video").append($("<iframe>").attr({
+            width: 580,
+            height: 326,
+            src: _src,
+            frameborder: 0,
+            allowfullscreen: "true"
+          }));
+        }
+        _this.$d_c.find(".detail_link a").attr({
           href: _$e.attr("data-link")
         });
+        return _this.setDetailPosition("works_detail");
       };
     })(this));
     _type = ["t", "d"];
@@ -262,42 +302,85 @@ Main = (function() {
       _t = _type[i];
       fn(_t);
     }
-    _loaded_count = 0;
-    results = [];
-    for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
-      results.push((function(_this) {
-        return function(i) {
-          var _img, _imgloaded_func;
-          _imgloaded_func = function() {
-            var _canvas, _ctx;
-            _canvas = document.createElement("canvas");
-            _ctx = _canvas.getContext("2d");
-            _canvas.width = _img.width;
-            _canvas.height = _img.height;
-            _ctx.drawImage(_img, 0, 0);
-            _this.$thumb.eq(i).find(".thumb_pic").css({
-              width: _img.width,
-              height: _img.height,
-              backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
+    this.$footer_about.on("click", (function(_this) {
+      return function() {
+        _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").hide();
+        _this.$d_c_c_i.filter("[data-type=\"about\"]").show();
+        return _this.setDetailPosition("about");
+      };
+    })(this));
+    this.$body.on("mousedown", (function(_this) {
+      return function(e) {
+        var _content_scroll_height, _from_client_y, _from_scroll_top, _scrollBar_whole_height, _type_short;
+        if ($(e.target).hasClass("scrollBar_inner")) {
+          _type = $(e.target).parent().attr("data-type");
+          _type_short = _type[0];
+          _from_client_y = e.clientY;
+          _from_scroll_top = _this["$" + _type_short + "_c_c_i"].scrollTop();
+          _scrollBar_whole_height = $(e.target).parent().height();
+          _content_scroll_height = _this["$" + _type_short + "_c_c_i"].get(0).scrollHeight;
+          _this.$body.on("mousemove", function(e) {
+            return _this["$" + _type_short + "_c_c_i"].prop({
+              scrollTop: (e.clientY - _from_client_y) * _content_scroll_height / _scrollBar_whole_height + _from_scroll_top
             });
-            _loaded_count += 1;
-            if (_loaded_count === _this.$thumb.size()) {
-              return _this.slitAnim("in");
-            }
-          };
-          _img = new Image();
-          if (_img.width > 0) {
-            _imgloaded_func();
-          } else {
-            _img.onload = function() {
-              return _imgloaded_func();
-            };
+          });
+          return _this.$body.one("mouseup", function() {
+            return _this.$body.off("mousemove");
+          });
+        }
+      };
+    })(this));
+    _loaded_count = 0;
+    fn1 = (function(_this) {
+      return function(i) {
+        var _img, _imgloaded_func;
+        _imgloaded_func = function() {
+          var _canvas, _ctx;
+          _canvas = document.createElement("canvas");
+          _ctx = _canvas.getContext("2d");
+          _canvas.width = _img.width;
+          _canvas.height = _img.height;
+          _ctx.drawImage(_img, 0, 0);
+          _this.$thumb.eq(i).find(".thumb_pic").css({
+            width: _img.width,
+            height: _img.height,
+            backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
+          });
+          _loaded_count += 1;
+          if (_loaded_count === _this.$thumb.size()) {
+            _this.$t_c_c_i.prop({
+              scrollTop: _this.$t_c_c_i.get(0).scrollHeight
+            });
+            _this.$scrollBar.find(".scrollBar_inner").css({
+              opacity: 0
+            });
+            return _this.slitAnim("in", function() {
+              _this.$t_c_c_i.animate({
+                scrollTop: 0
+              }, 1000);
+              return setTimeout(function() {
+                return _this.$scrollBar.find(".scrollBar_inner").css({
+                  opacity: 1
+                });
+              }, 10);
+            });
           }
-          return _img.src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
         };
-      })(this)(i));
+        _img = new Image();
+        if (_img.width > 0) {
+          _imgloaded_func();
+        } else {
+          _img.onload = function() {
+            return _imgloaded_func();
+          };
+        }
+        return _img.src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
+      };
+    })(this);
+    for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
+      fn1(i);
     }
-    return results;
+    return this.setDetailPosition("about");
   };
 
   return Main;

@@ -280,16 +280,20 @@ class Main
 
             @$d_c.find(".detail_link a").attr href: _$e.attr "data-link"
 
-            @$d_c.removeAttr "style"
-            if(@$d_c.height() + parseInt(@$d_c.css "marginTop") * 2 <
-            @$win.height())
-                @$d_c.css
+            _$d_c =
+                @$d_c_c_i.filter("[data-type=\"works_detail\"]").
+                find(".detail_container")
+
+            _$d_c.removeAttr "style"
+            if(_$d_c.height() +
+            parseInt(_$d_c.css "marginTop") * 2 < @$win.height())
+                _$d_c.css
                     position: "absolute"
                     top: 0
                     right: 0
                     bottom: 0
                     left: 0
-                    height: @$d_c.height()
+                    height: _$d_c.height()
                     margin: "auto"
 
         # scrollBar
@@ -379,5 +383,20 @@ class Main
                     "-thumb/" +
                     @$thumb.eq(i).find(".thumb_pic").attr("data-name") +
                     ".jpg"
+
+        # 画面幅が高い場合、aboutを中央に
+        _$d_c =
+            @$d_c_c_i.filter("[data-type=\"about\"]").find(".detail_container")
+
+        if(_$d_c.height() + parseInt(_$d_c.css "marginTop") * 2 <
+        @$win.height())
+            _$d_c.css
+                position: "absolute"
+                top: 0
+                right: 0
+                bottom: 0
+                left: 0
+                height: _$d_c.height()
+                margin: "auto"
 
 new Main()

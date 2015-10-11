@@ -193,7 +193,7 @@ Main = (function() {
   };
 
   Main.prototype.exec = function() {
-    var _loaded_count, _t, _type, fn, i, j, k, ref, ref1, results;
+    var _$d_c, _loaded_count, _t, _type, fn, fn1, i, j, k, ref, ref1;
     this.$win.on("resize", $.debounce(500, (function(_this) {
       return function() {
         return _this.setScrollBarHeight();
@@ -219,7 +219,7 @@ Main = (function() {
     })(this));
     this.$thumb.on("click", (function(_this) {
       return function(e) {
-        var _$e, _img, _imgloaded_func, _src;
+        var _$d_c, _$e, _img, _imgloaded_func, _src;
         _this.$d_c_c_i.filter("[data-type=\"about\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").show();
         _$e = $(e.currentTarget);
@@ -267,15 +267,16 @@ Main = (function() {
         _this.$d_c.find(".detail_link a").attr({
           href: _$e.attr("data-link")
         });
-        _this.$d_c.removeAttr("style");
-        if (_this.$d_c.height() + parseInt(_this.$d_c.css("marginTop")) * 2 < _this.$win.height()) {
-          return _this.$d_c.css({
+        _$d_c = _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").find(".detail_container");
+        _$d_c.removeAttr("style");
+        if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < _this.$win.height()) {
+          return _$d_c.css({
             position: "absolute",
             top: 0,
             right: 0,
             bottom: 0,
             left: 0,
-            height: _this.$d_c.height(),
+            height: _$d_c.height(),
             margin: "auto"
           });
         }
@@ -317,56 +318,67 @@ Main = (function() {
       };
     })(this));
     _loaded_count = 0;
-    results = [];
-    for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
-      results.push((function(_this) {
-        return function(i) {
-          var _img, _imgloaded_func;
-          _imgloaded_func = function() {
-            var _canvas, _ctx;
-            _canvas = document.createElement("canvas");
-            _ctx = _canvas.getContext("2d");
-            _canvas.width = _img.width;
-            _canvas.height = _img.height;
-            _ctx.drawImage(_img, 0, 0);
-            _this.$thumb.eq(i).find(".thumb_pic").css({
-              width: _img.width,
-              height: _img.height,
-              backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
+    fn1 = (function(_this) {
+      return function(i) {
+        var _img, _imgloaded_func;
+        _imgloaded_func = function() {
+          var _canvas, _ctx;
+          _canvas = document.createElement("canvas");
+          _ctx = _canvas.getContext("2d");
+          _canvas.width = _img.width;
+          _canvas.height = _img.height;
+          _ctx.drawImage(_img, 0, 0);
+          _this.$thumb.eq(i).find(".thumb_pic").css({
+            width: _img.width,
+            height: _img.height,
+            backgroundImage: "url(" + (_canvas.toDataURL()) + ")"
+          });
+          _loaded_count += 1;
+          if (_loaded_count === _this.$thumb.size()) {
+            _this.$t_c_c_i.prop({
+              scrollTop: _this.$t_c_c_i.get(0).scrollHeight
             });
-            _loaded_count += 1;
-            if (_loaded_count === _this.$thumb.size()) {
-              _this.$t_c_c_i.prop({
-                scrollTop: _this.$t_c_c_i.get(0).scrollHeight
-              });
-              _this.$scrollBar.find(".scrollBar_inner").css({
-                opacity: 0
-              });
-              return _this.slitAnim("in", function() {
-                _this.$t_c_c_i.animate({
-                  scrollTop: 0
-                }, 1000);
-                return setTimeout(function() {
-                  return _this.$scrollBar.find(".scrollBar_inner").css({
-                    opacity: 1
-                  });
-                }, 10);
-              });
-            }
-          };
-          _img = new Image();
-          if (_img.width > 0) {
-            _imgloaded_func();
-          } else {
-            _img.onload = function() {
-              return _imgloaded_func();
-            };
+            _this.$scrollBar.find(".scrollBar_inner").css({
+              opacity: 0
+            });
+            return _this.slitAnim("in", function() {
+              _this.$t_c_c_i.animate({
+                scrollTop: 0
+              }, 1000);
+              return setTimeout(function() {
+                return _this.$scrollBar.find(".scrollBar_inner").css({
+                  opacity: 1
+                });
+              }, 10);
+            });
           }
-          return _img.src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
         };
-      })(this)(i));
+        _img = new Image();
+        if (_img.width > 0) {
+          _imgloaded_func();
+        } else {
+          _img.onload = function() {
+            return _imgloaded_func();
+          };
+        }
+        return _img.src = "img/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-type") + "-thumb/" + _this.$thumb.eq(i).find(".thumb_pic").attr("data-name") + ".jpg";
+      };
+    })(this);
+    for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
+      fn1(i);
     }
-    return results;
+    _$d_c = this.$d_c_c_i.filter("[data-type=\"about\"]").find(".detail_container");
+    if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < this.$win.height()) {
+      return _$d_c.css({
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        height: _$d_c.height(),
+        margin: "auto"
+      });
+    }
   };
 
   return Main;

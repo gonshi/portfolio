@@ -252,7 +252,7 @@ Main = (function() {
             });
             _this.setScrollBarHeight();
             _this.$d_c_c_i.prop({
-              scroll: 0
+              scrollTop: 0
             });
             return _this.$d_s_i.css({
               top: 0

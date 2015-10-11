@@ -219,6 +219,16 @@ a:hover, a:active {
   box-shadow: 1px 0 1px #666;
 }
 
+.footer_about {
+  margin-right: 30px;
+  line-height: 30px;
+  font-family: 'Poiret One', cursive;
+  font-size: 11px;
+  text-align: right;
+  color: #fff;
+  cursor: pointer;
+}
+
 .is-hidden {
   display: none;
 }
@@ -299,10 +309,6 @@ The `sprites` mixin generates identical output to the CSS template
 }
 .contents_column_inner[data-type="works_detail"] {
   display: none;
-}
-.contents_column_inner[data-type="about"] .detail_ttl {
-  font-family: 'Poiret One', cursive;
-  font-size: 28px;
 }
 
 .ttl {
@@ -465,6 +471,11 @@ The `sprites` mixin generates identical output to the CSS template
   text-align: center;
   text-decoration: none;
   color: #000;
+}
+
+.detail_about {
+  font-family: 'Poiret One', cursive;
+  font-size: 28px;
 }
 
 .detail_name {

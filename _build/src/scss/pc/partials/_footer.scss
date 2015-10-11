@@ -7,3 +7,13 @@
     background-color: #000;
     box-shadow: 1px 0 1px #666;
 }
+
+.footer_about{
+    margin-right: 30px;
+    line-height: $footer-height;
+    font-family: 'Poiret One', cursive;
+    font-size: 11px;
+    text-align: right;
+    color: #fff;
+    cursor: pointer;
+}

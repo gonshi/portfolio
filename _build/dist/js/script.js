@@ -17,6 +17,7 @@ Main = (function() {
     this.$d_c = $(".detail_container");
     this.$d_s = $(".scrollBar").filter("[data-type=\"detail\"]");
     this.$d_s_i = this.$d_s.find(".scrollBar_inner");
+    this.$footer_about = $(".footer_about");
     if (location.href.match("localhost")) {
       window.is_debug = true;
     }
@@ -192,8 +193,25 @@ Main = (function() {
     return results;
   };
 
+  Main.prototype.setDetailPosition = function(type) {
+    var _$d_c;
+    _$d_c = this.$d_c_c_i.filter("[data-type=\"" + type + "\"]").find(".detail_container");
+    _$d_c.removeAttr("style");
+    if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < this.$win.height()) {
+      return _$d_c.css({
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        height: _$d_c.height(),
+        margin: "auto"
+      });
+    }
+  };
+
   Main.prototype.exec = function() {
-    var _$d_c, _loaded_count, _t, _type, fn, fn1, i, j, k, ref, ref1;
+    var _loaded_count, _t, _type, fn, fn1, i, j, k, ref, ref1;
     this.$win.on("resize", $.debounce(500, (function(_this) {
       return function() {
         return _this.setScrollBarHeight();
@@ -219,7 +237,7 @@ Main = (function() {
     })(this));
     this.$thumb.on("click", (function(_this) {
       return function(e) {
-        var _$d_c, _$e, _img, _imgloaded_func, _src;
+        var _$e, _img, _imgloaded_func, _src;
         _this.$d_c_c_i.filter("[data-type=\"about\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").show();
         _$e = $(e.currentTarget);
@@ -267,19 +285,7 @@ Main = (function() {
         _this.$d_c.find(".detail_link a").attr({
           href: _$e.attr("data-link")
         });
-        _$d_c = _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").find(".detail_container");
-        _$d_c.removeAttr("style");
-        if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < _this.$win.height()) {
-          return _$d_c.css({
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            height: _$d_c.height(),
-            margin: "auto"
-          });
-        }
+        return _this.setDetailPosition("works_detail");
       };
     })(this));
     _type = ["t", "d"];
@@ -296,6 +302,13 @@ Main = (function() {
       _t = _type[i];
       fn(_t);
     }
+    this.$footer_about.on("click", (function(_this) {
+      return function() {
+        _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").hide();
+        _this.$d_c_c_i.filter("[data-type=\"about\"]").show();
+        return _this.setDetailPosition("about");
+      };
+    })(this));
     this.$body.on("mousedown", (function(_this) {
       return function(e) {
         var _content_scroll_height, _from_client_y, _from_scroll_top, _scrollBar_whole_height, _type_short;
@@ -367,18 +380,7 @@ Main = (function() {
     for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
       fn1(i);
     }
-    _$d_c = this.$d_c_c_i.filter("[data-type=\"about\"]").find(".detail_container");
-    if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < this.$win.height()) {
-      return _$d_c.css({
-        position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        height: _$d_c.height(),
-        margin: "auto"
-      });
-    }
+    return this.setDetailPosition("about");
   };
 
   return Main;

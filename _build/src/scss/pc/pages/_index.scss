@@ -35,13 +35,6 @@
     &[data-type="works_detail"]{
         display: none;
     }
-
-    &[data-type="about"]{
-        .detail_ttl{
-            font-family: 'Poiret One', cursive;
-            font-size: 28px;
-        }
-    }
 }
 
 .ttl{
@@ -212,6 +205,11 @@
         text-decoration: none;
         color: #000;
     }
+}
+
+.detail_about{
+    font-family: 'Poiret One', cursive;
+    font-size: 28px;
 }
 
 .detail_name{

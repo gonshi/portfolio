@@ -22,6 +22,8 @@ class Main
         @$d_s = $(".scrollBar").filter("[data-type=\"detail\"]")
         @$d_s_i = @$d_s.find(".scrollBar_inner")
 
+        @$footer_about = $(".footer_about")
+
         window.is_debug = true if location.href.match "localhost"
 
         @exec()
@@ -206,6 +208,23 @@ class Main
                 @["#{_t}_s_rest_height"] =
                     @["$#{_t}_s"].height() - @["$#{_t}_s_i"].height()
 
+    setDetailPosition: (type) ->
+        _$d_c =
+            @$d_c_c_i.filter("[data-type=\"#{type}\"]").
+            find(".detail_container")
+
+        _$d_c.removeAttr "style"
+        if(_$d_c.height() +
+        parseInt(_$d_c.css "marginTop") * 2 < @$win.height())
+            _$d_c.css
+                position: "absolute"
+                top: 0
+                right: 0
+                bottom: 0
+                left: 0
+                height: _$d_c.height()
+                margin: "auto"
+
     exec: ->
         ######################
         # EVENT LISTENER
@@ -280,21 +299,7 @@ class Main
 
             @$d_c.find(".detail_link a").attr href: _$e.attr "data-link"
 
-            _$d_c =
-                @$d_c_c_i.filter("[data-type=\"works_detail\"]").
-                find(".detail_container")
-
-            _$d_c.removeAttr "style"
-            if(_$d_c.height() +
-            parseInt(_$d_c.css "marginTop") * 2 < @$win.height())
-                _$d_c.css
-                    position: "absolute"
-                    top: 0
-                    right: 0
-                    bottom: 0
-                    left: 0
-                    height: _$d_c.height()
-                    margin: "auto"
+            @setDetailPosition "works_detail"
 
         # scrollBar
         _type = ["t", "d"]
@@ -310,6 +315,11 @@ class Main
                              @["$#{_t}_c_c_i"].height())
                     )
                 )
+
+        @$footer_about.on "click", =>
+            @$d_c_c_i.filter("[data-type=\"works_detail\"]").hide()
+            @$d_c_c_i.filter("[data-type=\"about\"]").show()
+            @setDetailPosition "about"
 
         @$body.on "mousedown", (e) =>
             if $(e.target).hasClass "scrollBar_inner"
@@ -384,19 +394,6 @@ class Main
                     @$thumb.eq(i).find(".thumb_pic").attr("data-name") +
                     ".jpg"
 
-        # 画面幅が高い場合、aboutを中央に
-        _$d_c =
-            @$d_c_c_i.filter("[data-type=\"about\"]").find(".detail_container")
-
-        if(_$d_c.height() + parseInt(_$d_c.css "marginTop") * 2 <
-        @$win.height())
-            _$d_c.css
-                position: "absolute"
-                top: 0
-                right: 0
-                bottom: 0
-                left: 0
-                height: _$d_c.height()
-                margin: "auto"
+        @setDetailPosition "about"
 
 new Main()

@@ -350,6 +350,16 @@ class Main
         # INIT
         ######################
 
+        unless $.browser.desktop
+            $("body").addClass "is-sp"
+            $(".contents").hide()
+            $(".footer").hide()
+            $("body").append(
+                $("<p>").addClass("caution").text(
+                    "このサイトはPCから閲覧ください。"
+                )
+            )
+
         # サムネイルをbase64化
         _loaded_count = 0
         for i in [0...@$thumb.size()]

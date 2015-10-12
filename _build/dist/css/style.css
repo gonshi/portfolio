@@ -186,6 +186,9 @@ body {
   font-family: "游ゴシック", "YuGothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
   line-height: 1.5;
 }
+body.is-sp {
+  background-color: #fff;
+}
 
 a {
   color: #0072ff;
@@ -268,6 +271,19 @@ The `sprites` mixin generates identical output to the CSS template
 
 @include sprites($spritesheet-sprites);
 */
+.caution {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1em;
+  line-height: 1em;
+  margin: auto;
+  font-size: 16px;
+  text-align: center;
+}
+
 .contents_column {
   width: 50%;
   min-height: 100%;

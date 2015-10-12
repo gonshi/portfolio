@@ -337,6 +337,12 @@ Main = (function() {
         }
       };
     })(this));
+    if (!$.browser.desktop) {
+      $("body").addClass("is-sp");
+      $(".contents").hide();
+      $(".footer").hide();
+      $("body").append($("<p>").addClass("caution").text("このサイトはPCから閲覧ください。"));
+    }
     _loaded_count = 0;
     fn1 = (function(_this) {
       return function(i) {

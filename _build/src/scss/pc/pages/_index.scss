@@ -4,6 +4,15 @@
 //   index
 // =========================================
 
+.caution{ // for smart phone
+    @include absolute(0, 0, 0, 0);
+    height: 1em;
+    line-height: 1em;
+    margin: auto;
+    font-size: 16px;
+    text-align: center;
+}
+
 .contents_column{
     width: 50%;
     min-height: 100%;

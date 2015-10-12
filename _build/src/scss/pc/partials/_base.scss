@@ -11,6 +11,10 @@ body {
     }
     font-family: $yu-gothic;
     line-height: 1.5;
+
+    &.is-sp{
+        background-color: #fff;
+    }
 }
 
 a {

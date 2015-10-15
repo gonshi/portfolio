@@ -520,6 +520,12 @@ The `sprites` mixin generates identical output to the CSS template
   left: 0;
 }
 
+.detail_contact {
+  font-family: 'Poiret One', cursive;
+  font-size: 28px;
+  margin-top: 10px;
+}
+
 .scrollBar {
   width: 1px;
   background-color: #000;

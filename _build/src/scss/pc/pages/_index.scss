@@ -307,6 +307,7 @@ body.is-sp{
     .contents_column{
         width: 100%;
         background-color: rgba(254, 254, 254, 0.95);
+        -webkit-overflow-scrolling: touch;
 
         &[data-type="detail"]{
             display: none;

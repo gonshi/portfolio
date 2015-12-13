@@ -251,6 +251,9 @@ body.is-sp .limited[data-env="sp"] {
   cursor: pointer;
 }
 
+body.is-sp .footer {
+  position: fixed;
+}
 body.is-sp .footer_about {
   font-size: 14px;
 }
@@ -601,6 +604,7 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
 body.is-sp .contents_column {
   width: 100%;
   background-color: rgba(254, 254, 254, 0.95);
+  -webkit-overflow-scrolling: touch;
 }
 body.is-sp .contents_column[data-type="detail"] {
   display: none;

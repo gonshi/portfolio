@@ -26,6 +26,7 @@ class Main
         @$footer_about = $(".footer_about")
 
         window.is_debug = true if location.href.match "localhost"
+        window.VIEWPORT = 640
 
         @exec()
 
@@ -414,5 +415,15 @@ class Main
                     ".jpg"
 
         @setDetailPosition "about"
+
+        # smart phone size fix
+        if $.browser.iphone || $.browser.ipod || $.browser.ipad
+            document.querySelector('meta[name="viewport"]').setAttribute(
+                "content",
+                "width=#{VIEWPORT}, minimum-scale=0.25, " +
+                "maximum-scale=1.6, user-scalable=no"
+            )
+        else if $.browser.android
+            window.onload = => @$body.css zoom: window.innerWidth / VIEWPORT
 
 new Main()

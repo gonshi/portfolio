@@ -22,6 +22,7 @@ Main = (function() {
     if (location.href.match("localhost")) {
       window.is_debug = true;
     }
+    window.VIEWPORT = 640;
     this.exec();
   }
 
@@ -402,7 +403,18 @@ Main = (function() {
     for (i = k = 0, ref1 = this.$thumb.size(); 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
       fn1(i);
     }
-    return this.setDetailPosition("about");
+    this.setDetailPosition("about");
+    if ($.browser.iphone || $.browser.ipod || $.browser.ipad) {
+      return document.querySelector('meta[name="viewport"]').setAttribute("content", ("width=" + VIEWPORT + ", minimum-scale=0.25, ") + "maximum-scale=1.6, user-scalable=no");
+    } else if ($.browser.android) {
+      return window.onload = (function(_this) {
+        return function() {
+          return _this.$body.css({
+            zoom: window.innerWidth / VIEWPORT
+          });
+        };
+      })(this);
+    }
   };
 
   return Main;

@@ -26,13 +26,14 @@ html(lang="ja")
     script(src="js/lib/modernizr.min.js")
   body
     main.contents
-      section.contents_column(data-type="thumb")
+      div.ttl_container
         h1.ttl
           a(href="./") Shingo Tajima's Portfolio
         div.type.clearfix
           p.type_inner(data-type="private") private
           p.type_slash /
           p.type_inner(data-type="works") works
+      section.contents_column(data-type="thumb")
         div.contents_column_inner
           div.thumb_container
             // works

@@ -8,6 +8,11 @@
 //   index
 // =========================================
 
+.ttl_container{
+    @include absolute(0, '', '', 0);
+    width: 50%;
+}
+
 .contents_column{
     width: 50%;
     min-height: 100%;
@@ -303,6 +308,10 @@ body.is-sp{
     // =========================================
     //   index
     // =========================================
+
+    .ttl_container{
+        width: 100%;
+    }
 
     .contents_column{
         width: 100%;

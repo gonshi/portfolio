@@ -301,6 +301,13 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
   max-height: 999999px;
 }
 
+.ttl_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+}
+
 .contents_column {
   width: 50%;
   min-height: 100%;
@@ -601,6 +608,9 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
   height: 4px;
 }
 
+body.is-sp .ttl_container {
+  width: 100%;
+}
 body.is-sp .contents_column {
   width: 100%;
   background-color: rgba(254, 254, 254, 0.95);

@@ -87,6 +87,16 @@ Main = (function() {
 
   Main.prototype.slitAnim = function(vec, cb) {
     var _canvas, _clone_canvas, _ctx, _dur, _left_margin, _offset_top, _scroll_top, _slit_height, _slit_num, _time_gap, _time_gap_range, _win_slit_height, i, j, k, ref, ref1;
+    if (!$.browser.desktop) {
+      this.setScrollBarHeight();
+      this.$thumb.css({
+        opacity: 1
+      });
+      if (cb != null) {
+        cb();
+      }
+      return;
+    }
     this.$t_s.hide();
     this.$thumb.css({
       opacity: 1
@@ -107,9 +117,6 @@ Main = (function() {
     }
     this.$t_c_c_i.append(_canvas);
     _slit_height = Math.floor(Math.random() * 3) + 4;
-    if (!$.browser.desktop) {
-      _slit_height *= 5;
-    }
     _slit_num = Math.ceil(_clone_canvas.height / _slit_height);
     _dur = 800;
     _time_gap = [];

@@ -127,7 +127,7 @@ class Main
         @$t_c_c_i.append _canvas
 
         _slit_height = Math.floor(Math.random() * 3) + 4
-        _slit_height *= 3 unless $.browser.desktop
+        _slit_height *= 5 unless $.browser.desktop
         _slit_num = Math.ceil(_clone_canvas.height / _slit_height)
         _dur = 800
         _time_gap = []

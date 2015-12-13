@@ -1,5 +1,6 @@
 {
   "title": "Shingo Tajima's Portfolio",
   "description": "田島 真悟のポートフォリオサイトです。",
-  "url": "http://portfolio.gonshi.net"
+  "url": "http://portfolio.gonshi.net",
+  "viewport": "640"
 }

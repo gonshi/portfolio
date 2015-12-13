@@ -19,6 +19,7 @@ html(lang="ja")
     meta(name="twitter:title" content=title)
     meta(name="twitter:description" content=description)
     meta(name="twitter:image:src" content="#{url}img/ogp.png")
+    meta(name="viewport" content="width=640, minimum-scale=0.5, maximum-scale=0.5, user-scalable=yes")
     link(rel="shortcut icon" href="/favicon.ico")
     link(href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css')
     link(href="css/style.css" rel="stylesheet")
@@ -26,7 +27,8 @@ html(lang="ja")
   body
     main.contents
       section.contents_column(data-type="thumb")
-        h1.ttl Shingo Tajima's Portfolio
+        h1.ttl
+          a(href="./") Shingo Tajima's Portfolio
         div.type.clearfix
           p.type_inner(data-type="private") private
           p.type_slash /
@@ -59,6 +61,8 @@ html(lang="ja")
       section.contents_column(data-type="detail")
         div.contents_column_inner(data-type="works_detail")
           div.detail_container.clearfix
+            p.detail_container_close.limited(data-env="sp")
+              span ✕
             canvas.detail_pic
             div.detail_info
               p.detail_ttl
@@ -71,6 +75,8 @@ html(lang="ja")
               div.scrollBar_inner
         div.contents_column_inner(data-type="about")
           div.detail_container
+            p.detail_container_close.limited(data-env="sp")
+              span ✕
             p.detail_about About
             p.detail_name 田島 真悟 (24)
             div.detail_resume

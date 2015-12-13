@@ -1,17 +1,12 @@
 @import "../_index-pc.scss";
 
+%sp_txt_bugfix{
+    max-height: 999999px;
+}
+
 // =========================================
 //   index
 // =========================================
-
-.caution{ // for smart phone
-    @include absolute(0, 0, 0, 0);
-    height: 1em;
-    line-height: 1em;
-    margin: auto;
-    font-size: 16px;
-    text-align: center;
-}
 
 .contents_column{
     width: 50%;
@@ -50,11 +45,15 @@
     @include absolute(30px, 0, '', 20px);
     width: 560px;
     margin: auto;
-    color: #000;
-    font-family: 'Poiret One', cursive;
-    font-size: 32px;
-    @include open-face(#fefefe);
     z-index: index($zIndex, "ttl");
+
+    a{
+        display: block;
+        color: #000;
+        font-family: 'Poiret One', cursive;
+        font-size: 32px;
+        @include open-face(#fefefe);
+    }
 }
 
 .type{
@@ -293,5 +292,114 @@
     &:after{
         @include absolute('', 0, 3px, 0);
         @include sprite($arrow);
+    }
+}
+
+// =========================================
+//  smart phone
+// =========================================
+
+body.is-sp{
+    // =========================================
+    //   index
+    // =========================================
+
+    .contents_column{
+        width: 100%;
+        background-color: rgba(254, 254, 254, 0.95);
+
+        &[data-type="detail"]{
+            display: none;
+        }
+    }
+
+    .contents_column_inner{
+        @include absolute(0, 0, 0, 0);
+    }
+
+    .ttl{
+        left: 0;
+
+        a{
+            width: 560px;
+            font-size: 36px;
+        }
+    }
+
+    .type{
+        right: 0;
+        width: 560px;
+        font-size: 24px;
+    }
+
+    // =========================================
+    //   thumb
+    // =========================================
+
+    .thumb{
+        width: 560px;
+    }
+
+    .thumb_ttl{
+        font-size: 16px;
+    }
+
+    .thumb_tech{
+        font-size: 14px;
+    }
+
+    // =========================================
+    //   detail
+    // =========================================
+
+    .detail_container_close{
+        $width: 60px;
+        @include absolute(-60px, -15px, '', '');
+        width: $width;
+        height: $width;
+        line-height: $width;
+        text-align: center;
+
+        span{
+            font-size: 36px;
+        }
+    }
+
+    .detail_role{
+        font-size: 24px;
+    }
+
+    .detail_role{
+        font-size: 16px;
+    }
+
+    .detail_description{
+        font-size: 18px;
+        @extend %sp_txt_bugfix;
+    }
+
+    .detail_link{
+        width: 160px;
+        height: 50px;
+
+        a{
+            line-height: 50px;
+            font-size: 18px;
+        }
+    }
+
+    .detail_name{
+        font-size: 18px;
+        @extend %sp_txt_bugfix;
+    }
+
+    .detail_resume{
+        font-size: 16px;
+        @extend %sp_txt_bugfix;
+    }
+
+    .detail_mail{
+        font-size: 16px;
+        @extend %sp_txt_bugfix;
     }
 }

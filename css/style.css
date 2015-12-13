@@ -211,6 +211,25 @@ a:hover, a:active {
   height: calc(100vh - 30px);
   overflow: hidden;
 }
+body.is-sp .contents {
+  min-width: 0px;
+}
+
+.limited {
+  display: none;
+}
+.limited[data-env="pc"] {
+  display: block;
+}
+body.is-sp .limited[data-env="pc"] {
+  display: none;
+}
+.limited[data-env="sp"] {
+  display: none;
+}
+body.is-sp .limited[data-env="sp"] {
+  display: block;
+}
 
 .footer {
   position: absolute;
@@ -230,6 +249,10 @@ a:hover, a:active {
   text-align: right;
   color: #fff;
   cursor: pointer;
+}
+
+body.is-sp .footer_about {
+  font-size: 14px;
 }
 
 .is-hidden {
@@ -271,17 +294,8 @@ The `sprites` mixin generates identical output to the CSS template
 
 @include sprites($spritesheet-sprites);
 */
-.caution {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1em;
-  line-height: 1em;
-  margin: auto;
-  font-size: 16px;
-  text-align: center;
+body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resume, body.is-sp .detail_mail {
+  max-height: 999999px;
 }
 
 .contents_column {
@@ -334,11 +348,14 @@ The `sprites` mixin generates identical output to the CSS template
   right: 0;
   width: 560px;
   margin: auto;
+  z-index: 4;
+}
+.ttl a {
+  display: block;
   color: #000;
   font-family: 'Poiret One', cursive;
   font-size: 32px;
   text-shadow: 1px 0px 0px #fefefe, -0.873305px -0.487175px 0px #fefefe, 0.52532px 0.850905px 0px #fefefe, -0.04423px -0.99902px 0px #fefefe, -0.448075px 0.893995px 0px #fefefe, 0.826835px -0.56244px 0px #fefefe, -0.99609px 0.08837px 0px #fefefe, 0.91294px 0.408095px 0px #fefefe, -0.59846px -0.801155px 0px #fefefe, 0.132335px 0.991205px 0px #fefefe, 0.36732px -0.930095px 0px #fefefe, -0.7739px 0.63331px 0px #fefefe, 0.98438px -0.176045px 0px #fefefe, -0.94543px -0.325825px 0px #fefefe, 0.666915px 0.745135px 0px #fefefe, -0.21941px -0.975635px 0px #fefefe, -0.28369px 0.958915px 0px #fefefe;
-  z-index: 4;
 }
 
 .type {
@@ -579,6 +596,80 @@ The `sprites` mixin generates identical output to the CSS template
   background-position: 0px 0px;
   width: 7px;
   height: 4px;
+}
+
+body.is-sp .contents_column {
+  width: 100%;
+  background-color: rgba(254, 254, 254, 0.95);
+}
+body.is-sp .contents_column[data-type="detail"] {
+  display: none;
+}
+body.is-sp .contents_column_inner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+body.is-sp .ttl {
+  left: 0;
+}
+body.is-sp .ttl a {
+  width: 560px;
+  font-size: 36px;
+}
+body.is-sp .type {
+  right: 0;
+  width: 560px;
+  font-size: 24px;
+}
+body.is-sp .thumb {
+  width: 560px;
+}
+body.is-sp .thumb_ttl {
+  font-size: 16px;
+}
+body.is-sp .thumb_tech {
+  font-size: 14px;
+}
+body.is-sp .detail_container_close {
+  position: absolute;
+  top: -60px;
+  right: -15px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+body.is-sp .detail_container_close span {
+  font-size: 36px;
+}
+body.is-sp .detail_role {
+  font-size: 24px;
+}
+body.is-sp .detail_role {
+  font-size: 16px;
+}
+body.is-sp .detail_description {
+  font-size: 18px;
+}
+body.is-sp .detail_link {
+  width: 160px;
+  height: 50px;
+}
+body.is-sp .detail_link a {
+  line-height: 50px;
+  font-size: 18px;
+}
+body.is-sp .detail_name {
+  font-size: 18px;
+}
+body.is-sp .detail_resume {
+  font-size: 16px;
+}
+body.is-sp .detail_mail {
+  font-size: 16px;
 }
 
 @media print {

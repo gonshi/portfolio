@@ -16,6 +16,7 @@ class Main
         @$t_s_i = @$t_s.find(".scrollBar_inner")
 
         # detail
+        @$d_c_c = $(".contents_column").filter("[data-type=\"detail\"]")
         @$d_c_c_i = $(".contents_column").filter("[data-type=\"detail\"]").
                     find(".contents_column_inner")
         @$d_c = $(".detail_container")
@@ -258,6 +259,8 @@ class Main
             @$d_c_c_i.filter("[data-type=\"about\"]").hide()
             @$d_c_c_i.filter("[data-type=\"works_detail\"]").show()
 
+            @$d_c_c.show() # for smart phone
+
             _$e = $(e.currentTarget)
 
             _imgloaded_func = =>
@@ -283,6 +286,13 @@ class Main
             @$d_c.find(".detail_description").html _$e.attr "data-description"
             @$d_c.find(".detail_video").empty()
 
+            # clear canvas
+            _canvas = @$d_c.find(".detail_pic").get(0)
+            _canvas.width = @$d_c.find(".detail_pic").width()
+            _canvas.height = @$d_c.find(".detail_pic").height()
+            _canvas.getContext("2d").clearRect 0, 0, _canvas.width, _canvas.height
+
+            # set youtube
             if _$e.attr("data-video-type") == "youtube"
                 _src = "https://www.youtube.com/embed/" +
                        "#{_$e.attr "data-video-id"}?rel=0"
@@ -319,9 +329,13 @@ class Main
                     )
                 )
 
+        @$d_c_c.find(".detail_container_close").on "click", =>
+            @$d_c_c.hide() # for smart phone
+
         @$footer_about.on "click", =>
             @$d_c_c_i.filter("[data-type=\"works_detail\"]").hide()
             @$d_c_c_i.filter("[data-type=\"about\"]").show()
+            @$d_c_c.show() # for smart phone
             @setDetailPosition "about"
 
         @$body.on "mousedown", (e) =>
@@ -350,15 +364,7 @@ class Main
         # INIT
         ######################
 
-        unless $.browser.desktop
-            $("body").addClass "is-sp"
-            $(".contents").hide()
-            $(".footer").hide()
-            $("body").append(
-                $("<p>").addClass("caution").text(
-                    "このサイトはPCから閲覧ください。"
-                )
-            )
+        $("body").addClass "is-sp" unless $.browser.desktop
 
         # サムネイルをbase64化
         _loaded_count = 0

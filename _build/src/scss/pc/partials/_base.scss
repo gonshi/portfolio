@@ -35,4 +35,28 @@ a {
     min-width: 1200px;
     height: calc(100vh - #{$footer-height});
     overflow: hidden;
+
+    @include sp{
+        min-width: 0px;
+    }
+}
+
+.limited{
+    display: none;
+
+    &[data-env="pc"]{
+        display: block;
+
+        @include sp{
+            display: none;
+        }
+    }
+
+    &[data-env="sp"]{
+        display: none;
+
+        @include sp{
+            display: block;
+        }
+    }
 }

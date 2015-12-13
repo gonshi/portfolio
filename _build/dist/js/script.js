@@ -13,6 +13,7 @@ Main = (function() {
     this.$thumb = $(".thumb");
     this.$t_s = $(".scrollBar").filter("[data-type=\"thumb\"]");
     this.$t_s_i = this.$t_s.find(".scrollBar_inner");
+    this.$d_c_c = $(".contents_column").filter("[data-type=\"detail\"]");
     this.$d_c_c_i = $(".contents_column").filter("[data-type=\"detail\"]").find(".contents_column_inner");
     this.$d_c = $(".detail_container");
     this.$d_s = $(".scrollBar").filter("[data-type=\"detail\"]");
@@ -241,9 +242,10 @@ Main = (function() {
     })(this));
     this.$thumb.on("click", (function(_this) {
       return function(e) {
-        var _$e, _img, _imgloaded_func, _src;
+        var _$e, _canvas, _img, _imgloaded_func, _src;
         _this.$d_c_c_i.filter("[data-type=\"about\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").show();
+        _this.$d_c_c.show();
         _$e = $(e.currentTarget);
         _imgloaded_func = function() {
           return _this.mosaicAnim(_this.$d_c.find(".detail_pic").get(0), _img, function() {
@@ -275,6 +277,10 @@ Main = (function() {
         _this.$d_c.find(".detail_role_inner").text(_$e.attr("data-role"));
         _this.$d_c.find(".detail_description").html(_$e.attr("data-description"));
         _this.$d_c.find(".detail_video").empty();
+        _canvas = _this.$d_c.find(".detail_pic").get(0);
+        _canvas.width = _this.$d_c.find(".detail_pic").width();
+        _canvas.height = _this.$d_c.find(".detail_pic").height();
+        _canvas.getContext("2d").clearRect(0, 0, _canvas.width, _canvas.height);
         if (_$e.attr("data-video-type") === "youtube") {
           _src = "https://www.youtube.com/embed/" + ((_$e.attr("data-video-id")) + "?rel=0");
         } else if (_$e.attr("data-video-type") === "vimeo") {
@@ -309,10 +315,16 @@ Main = (function() {
       _t = _type[i];
       fn(_t);
     }
+    this.$d_c_c.find(".detail_container_close").on("click", (function(_this) {
+      return function() {
+        return _this.$d_c_c.hide();
+      };
+    })(this));
     this.$footer_about.on("click", (function(_this) {
       return function() {
         _this.$d_c_c_i.filter("[data-type=\"works_detail\"]").hide();
         _this.$d_c_c_i.filter("[data-type=\"about\"]").show();
+        _this.$d_c_c.show();
         return _this.setDetailPosition("about");
       };
     })(this));
@@ -339,9 +351,6 @@ Main = (function() {
     })(this));
     if (!$.browser.desktop) {
       $("body").addClass("is-sp");
-      $(".contents").hide();
-      $(".footer").hide();
-      $("body").append($("<p>").addClass("caution").text("このサイトはPCから閲覧ください。"));
     }
     _loaded_count = 0;
     fn1 = (function(_this) {

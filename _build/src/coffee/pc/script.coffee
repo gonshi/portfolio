@@ -103,12 +103,6 @@ class Main
         , _dur * 1.6
 
     slitAnim: (vec, cb) ->
-        unless $.browser.desktop
-            @setScrollBarHeight()
-            @$thumb.css opacity: 1
-            cb() if cb?
-            return
-
         @$t_s.hide() # canvas内にスクロールバーが映らないようにする
         @$thumb.css opacity: 1
         @$thumb_container = $(".thumb_container")
@@ -133,6 +127,7 @@ class Main
         @$t_c_c_i.append _canvas
 
         _slit_height = Math.floor(Math.random() * 3) + 4
+        _slit_height *= 3 unless $.browser.desktop
         _slit_num = Math.ceil(_clone_canvas.height / _slit_height)
         _dur = 800
         _time_gap = []

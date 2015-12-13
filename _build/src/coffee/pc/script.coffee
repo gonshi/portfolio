@@ -218,16 +218,36 @@ class Main
             find(".detail_container")
 
         _$d_c.removeAttr "style"
-        if(_$d_c.height() +
-        parseInt(_$d_c.css "marginTop") * 2 < @$win.height())
-            _$d_c.css
-                position: "absolute"
-                top: 0
-                right: 0
-                bottom: 0
-                left: 0
-                height: _$d_c.height()
-                margin: "auto"
+        if $.browser.desktop
+            if(_$d_c.height() +
+            parseInt(_$d_c.css "marginTop") * 2 < @$win.height())
+                _$d_c.css
+                    position: "absolute"
+                    top: 0
+                    right: 0
+                    bottom: 0
+                    left: 0
+                    height: _$d_c.height()
+                    margin: "auto"
+        else
+            if(_$d_c.height() +
+            parseInt(_$d_c.css "marginTop") * 2 < @$win.height() - 200)
+                _$d_c.css
+                    position: "absolute"
+                    top: 0
+                    right: 0
+                    bottom: 0
+                    left: 0
+                    height: _$d_c.height()
+                    margin: "auto"
+            else
+                _$d_c.css
+                    position: "absolute"
+                    top: 200
+                    right: 0
+                    left: 0
+                    paddingBottom: 100
+                    margin: "auto"
 
     exec: ->
         ######################

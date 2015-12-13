@@ -203,16 +203,39 @@ Main = (function() {
     var _$d_c;
     _$d_c = this.$d_c_c_i.filter("[data-type=\"" + type + "\"]").find(".detail_container");
     _$d_c.removeAttr("style");
-    if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < this.$win.height()) {
-      return _$d_c.css({
-        position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        height: _$d_c.height(),
-        margin: "auto"
-      });
+    if ($.browser.desktop) {
+      if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < this.$win.height()) {
+        return _$d_c.css({
+          position: "absolute",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          height: _$d_c.height(),
+          margin: "auto"
+        });
+      }
+    } else {
+      if (_$d_c.height() + parseInt(_$d_c.css("marginTop")) * 2 < this.$win.height() - 200) {
+        return _$d_c.css({
+          position: "absolute",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          height: _$d_c.height(),
+          margin: "auto"
+        });
+      } else {
+        return _$d_c.css({
+          position: "absolute",
+          top: 200,
+          right: 0,
+          left: 0,
+          paddingBottom: 100,
+          margin: "auto"
+        });
+      }
     }
   };
 

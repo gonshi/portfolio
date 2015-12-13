@@ -103,6 +103,12 @@ class Main
         , _dur * 1.6
 
     slitAnim: (vec, cb) ->
+        unless $.browser.desktop
+            @setScrollBarHeight()
+            @$thumb.css opacity: 1
+            cb() if cb?
+            return
+
         @$t_s.hide() # canvas内にスクロールバーが映らないようにする
         @$thumb.css opacity: 1
         @$thumb_container = $(".thumb_container")
@@ -243,7 +249,7 @@ class Main
             else
                 _$d_c.css
                     position: "absolute"
-                    top: 200
+                    top: 150
                     right: 0
                     left: 0
                     paddingBottom: 100

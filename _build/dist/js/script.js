@@ -87,6 +87,16 @@ Main = (function() {
 
   Main.prototype.slitAnim = function(vec, cb) {
     var _canvas, _clone_canvas, _ctx, _dur, _left_margin, _offset_top, _scroll_top, _slit_height, _slit_num, _time_gap, _time_gap_range, _win_slit_height, i, j, k, ref, ref1;
+    if (!$.browser.desktop) {
+      this.setScrollBarHeight();
+      this.$thumb.css({
+        opacity: 1
+      });
+      if (cb != null) {
+        cb();
+      }
+      return;
+    }
     this.$t_s.hide();
     this.$thumb.css({
       opacity: 1
@@ -229,7 +239,7 @@ Main = (function() {
       } else {
         return _$d_c.css({
           position: "absolute",
-          top: 200,
+          top: 150,
           right: 0,
           left: 0,
           paddingBottom: 100,

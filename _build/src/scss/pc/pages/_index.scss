@@ -47,7 +47,7 @@
 }
 
 .ttl{
-    @include absolute(30px, 0, '', calc((100% - 560px) / 2 + 10px));
+    @include absolute(30px, '', '', calc((100% - 560px) / 2 + 10px));
     width: 400px;
     z-index: index($zIndex, "ttl");
 
@@ -330,17 +330,15 @@ body.is-sp{
     }
 
     .ttl{
-        left: 0;
+        left: 40px;
 
         a{
-            width: 560px;
             font-size: 36px;
         }
     }
 
     .type{
-        right: 0;
-        width: 560px;
+        right: 40px;
         font-size: 24px;
     }
 

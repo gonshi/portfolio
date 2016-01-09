@@ -355,7 +355,6 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
   position: absolute;
   top: 30px;
   left: calc((100% - 560px) / 2 + 10px);
-  right: 0;
   width: 400px;
   z-index: 4;
 }
@@ -627,15 +626,13 @@ body.is-sp .contents_column_inner {
   right: 0;
 }
 body.is-sp .ttl {
-  left: 0;
+  left: 40px;
 }
 body.is-sp .ttl a {
-  width: 560px;
   font-size: 36px;
 }
 body.is-sp .type {
-  right: 0;
-  width: 560px;
+  right: 40px;
   font-size: 24px;
 }
 body.is-sp .thumb {

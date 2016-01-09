@@ -354,10 +354,9 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
 .ttl {
   position: absolute;
   top: 30px;
-  left: 20px;
+  left: calc((100% - 560px) / 2 + 10px);
   right: 0;
-  width: 560px;
-  margin: auto;
+  width: 400px;
   z-index: 4;
 }
 .ttl a {
@@ -367,14 +366,15 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
   font-size: 32px;
   text-shadow: 1px 0px 0px #fefefe, -0.873305px -0.487175px 0px #fefefe, 0.52532px 0.850905px 0px #fefefe, -0.04423px -0.99902px 0px #fefefe, -0.448075px 0.893995px 0px #fefefe, 0.826835px -0.56244px 0px #fefefe, -0.99609px 0.08837px 0px #fefefe, 0.91294px 0.408095px 0px #fefefe, -0.59846px -0.801155px 0px #fefefe, 0.132335px 0.991205px 0px #fefefe, 0.36732px -0.930095px 0px #fefefe, -0.7739px 0.63331px 0px #fefefe, 0.98438px -0.176045px 0px #fefefe, -0.94543px -0.325825px 0px #fefefe, 0.666915px 0.745135px 0px #fefefe, -0.21941px -0.975635px 0px #fefefe, -0.28369px 0.958915px 0px #fefefe;
 }
+.ttl a:hover {
+  text-decoration: none;
+}
 
 .type {
   position: absolute;
   top: 45px;
-  left: 0;
-  right: 20px;
-  width: 560px;
-  margin: auto;
+  right: calc((100% - 560px) / 2 + 10px);
+  width: 200px;
   color: #000;
   font-family: 'Poiret One', cursive;
   font-size: 18px;

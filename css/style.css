@@ -486,6 +486,9 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
   margin-top: 20px;
   font-size: 13px;
 }
+.detail_description a {
+  color: inherit;
+}
 
 .detail_video {
   margin-top: 20px;

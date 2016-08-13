@@ -313,13 +313,6 @@ body.is-sp .detail_description, body.is-sp .detail_name, body.is-sp .detail_resu
   min-height: 100%;
   background-color: #fefefe;
   overflow-x: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  -moz-user-drag: none;
-  -ms-user-drag: none;
 }
 .contents_column[data-type="thumb"] {
   position: absolute;

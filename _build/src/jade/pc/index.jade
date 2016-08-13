@@ -37,6 +37,7 @@ html(lang="ja")
         div.contents_column_inner
           div.thumb_container
             // works
+            +thumb("works", "lucky_brothers_corporate", "株式会社Lucky Brothers & co.<br>コーポレートサイト", "Pixi.js, Spread Sheet API", "株式会社Lucky Brothers & co. コーポレートサイト", "企画・演出・デザイン・実装・編集", "2016年7月に創業した新会社Lucky Brothers & co. のコーポレートサイト。<br>社名にも冠している「ラッキー」をモチーフにした小ネタがサイト内の随所に散りばめられています。<br>例えば、遠くに見える空では“Lucky”という単語を含むツイートが流れていたり、ページ遷移時のローディング画像としてラッキーなシーンを描いたGIFアニメが使われていたり。<br>また、サイトのイラストを担当していただいたネゴシックスさんと共に制作過程の裏側について話したインタビュー記事も、サイト内のどこかに隠してあります。", "http://lucky-brothers.co.jp")
             +thumb("works", "kayac_corporate", "面白法人カヤック コーポレートサイト", "Ruby on Rails, WebGL, GLSL, HTML Canvas", "面白法人カヤック コーポレートサイト", "サイト演出・実装", "3年ぶりとなる面白法人カヤックのコーポレートサイト刷新。今回のテーマは『5つのデザインテーマ』を持ったサイトです。<br style=\"line-height: 3em;\">「Simple」「Manga」「Game」「Tech」「Kamakura」という5つのデザインを、右下のボタンから切り替えることでお楽しみいただけます。<br>キャラクターの動きにはゲームチームのアニメーターに、近未来の表現にはシェーダープログラムを書けるエンジニアに、チャットのやりとりを考える際にはクイズ王の社員にお願いするなど、多様なクリエーターを抱えるカヤックならではの制作工程で作りました。", "https://www.kayac.com/", "youtube", "kKmJuXnNiqk")
             +thumb("works", "ayupy", "TSUKURUUU＋ -『ツクル』を仕事にしたい未来のこどもたちのために", "WordPress", "TSUKURUUU＋ -『ツクル』を仕事にしたい未来のこどもたちのために", "サイト演出・実装", "クリエイティブ・ワーク・プロデューサーとして活動する後藤あゆみさんのポートフォリオサイトを制作しました。<br><br>虹色をモチーフとしており、マウスカーソルと連動しながら各要素に虹色のボーダーが現れたり、背景を動いているパターンの画像に色がついたりといった演出を施しています。<br><br>また、各要素はWordPressによって更新可能な設計としています。", "http://ayupy.com/")
             +thumb("works", "nhk-kotsu", "3分でわかる！事故予測検定", "WebGL", "3分でわかる！事故予測検定", "サイト演出・実装", "統計上交通事故が起きやすい状況を3D空間上で再現し、危険だと思う位置をクリックしてもらうことでユーザの危険予測度を測定できる、NHK様のWebコンテンツです。<br>クイズは全6問あり、全てに答えるとユーザの危険予測度がS〜Cの4段階で示されます。<br>WebGLを使用していながら、モデルデータのポリゴン数を抑えるといった工夫によって、できるだけロード時間を短くするようにしました。", "http://www.nhk.or.jp/d-navi/link/kotsu/")
@@ -93,12 +94,13 @@ html(lang="ja")
             p.detail_about About
             p.detail_name 田島 真悟 (25)
             div.detail_resume
+              p.detail_resume_inner 株式会社Lucky Brothers & co. 代表取締役 / プログラマ (2016~)
               p.detail_resume_inner 面白法人カヤック 技術部 (2014~)
               p.detail_resume_inner 九州大学大学院 芸術工学府 (2013~2014)
               p.detail_resume_inner 九州大学 芸術工学部 (2011~2013)
               p.detail_resume_inner 鹿児島工業高等専門学校 情報工学科 (2006~2011)
             p.detail_contact contact
-            p.detail_mail mail[at]gonshi.net
+            p.detail_mail taji[at]lucky-brothers.co.jp
     footer.footer
       p.footer_about About
     script(src="js/lib/jquery-2.1.3.min.js")

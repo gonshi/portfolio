@@ -266,7 +266,7 @@ class Main
             return if $(e.currentTarget).hasClass "is-prevent"
             @$type_inner.addClass "is-prevent"
 
-            @slitAnim "out"
+            # @slitAnim "out"
 
             setTimeout => # wait svg load
                 @$thumb.hide()
